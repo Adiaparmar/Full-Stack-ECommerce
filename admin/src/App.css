@@ -10,6 +10,30 @@ body {
   background: #ebe9e9;
 }
 
+::-webkit-scrrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+::-webkit-scrollbar-thumb {
+  background: #0858f7 !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.btn-blue {
+  background: #0858f7 !important;
+  font-size: 15px !important;
+  font-weight: 500;
+  color: white !important;
+  margin: 5px 15px;
+  border-radius: 5px;
+  background-color: #ebf6ff;
+}
+.css-99wn1p-MuiList-root-MuiMenu-list {
+  padding-bottom: 0px !important;
+}
+
 header {
   width: 100%;
   height: 70px;
@@ -83,7 +107,7 @@ header button.rounded-circle:hover svg {
   margin-top: 0px;
 }
 
-.myAcc .userImg {
+.userImg {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +119,7 @@ header button.rounded-circle:hover svg {
   border-radius: 100%;
 }
 
-.myAcc .userImg .rounded-circle {
+.userImg .rounded-circle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,7 +129,7 @@ header button.rounded-circle:hover svg {
   cursor: pointer;
   position: relative;
 }
-.myAcc .userImg .rounded-circle img {
+.userImg .rounded-circle img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -128,7 +152,58 @@ header button.rounded-circle:hover svg {
 }
 
 #notifications .MuiPaper-elevation {
-  right: 14% !important;
-  width: 250px !important;
+  right: 240px !important;
+  width: 310px !important;
   left: auto !important;
+}
+
+.dropdown_list .head {
+  padding: 10px 0px;
+}
+
+.dropdown_list .head h4 {
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 0px !important;
+  padding-left: 10px !important;
+}
+.dropdown_list li.MuiButtonBase-root {
+  background: #ebf6ff !important;
+  color: #000;
+  padding: 10px 15px !important;
+}
+
+.dropdown_list li.MuiButtonBase-root:hover {
+  background: #d7eaf9;
+}
+.dropdownInfo {
+  padding-left: 15px;
+  padding-top: 5px;
+}
+.dropdownInfo h4 {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: break-spaces;
+  line-height: 20px;
+  margin-top: 0px;
+}
+.dropdownInfo h4 b {
+  font-weight: 600;
+  margin-right: 5px;
+}
+.dropdownInfo p {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 0px;
+  padding-left: 10px;
+}
+
+.text-sky {
+  color: #0858f7;
+}
+
+.dropdown_list .scroll {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

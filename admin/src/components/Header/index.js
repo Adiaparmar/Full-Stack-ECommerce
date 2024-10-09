@@ -84,7 +84,7 @@ const Header = () => {
                   <Menu
                     anchorEl={isOpennotificationDrop}
                     id="notifications"
-                    className="notifications"
+                    className="notifications dropdown_list"
                     open={openNotifications}
                     onClose={handleCloseNotificationsDrop}
                     onClick={handleCloseNotificationsDrop}
@@ -119,24 +119,143 @@ const Header = () => {
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                      </ListItemIcon>
-                      My Notifications
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      Reset Password
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <Logout fontSize="small" />
-                      </ListItemIcon>
-                      Logout
-                    </MenuItem>
+                    <div className="head pl-3">
+                      <h4>Orders (12)</h4>
+                    </div>
+                    <Divider />
+
+                    <div className="scroll">
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <div className="userImg">
+                              <span className="rounded-circle">
+                                <img
+                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                                  alt="userImg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>Mahmudul</b>
+                                added to his favourite list
+                                <b> Leather belt steve madden</b>
+                              </span>
+                            </h4>
+                            <p className="text-sky">few seconds ago</p>
+                          </div>
+                        </div>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <div className="userImg">
+                              <span className="rounded-circle">
+                                <img
+                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                                  alt="userImg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>Mahmudul</b>
+                                added to his favourite list
+                                <b> Leather belt steve madden</b>
+                              </span>
+                            </h4>
+                            <p className="text-sky">few seconds ago</p>
+                          </div>
+                        </div>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <div className="userImg">
+                              <span className="rounded-circle">
+                                <img
+                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                                  alt="userImg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>Mahmudul</b>
+                                added to his favourite list
+                                <b> Leather belt steve madden</b>
+                              </span>
+                            </h4>
+                            <p className="text-sky">few seconds ago</p>
+                          </div>
+                        </div>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <div className="userImg">
+                              <span className="rounded-circle">
+                                <img
+                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                                  alt="userImg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>Mahmudul</b>
+                                added to his favourite list
+                                <b> Leather belt steve madden</b>
+                              </span>
+                            </h4>
+                            <p className="text-sky">few seconds ago</p>
+                          </div>
+                        </div>
+                      </MenuItem>
+
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <div className="d-flex align-items-center">
+                          <div>
+                            <div className="userImg">
+                              <span className="rounded-circle">
+                                <img
+                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                                  alt="userImg"
+                                />
+                              </span>
+                            </div>
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>Mahmudul</b>
+                                added to his favourite list
+                                <b> Leather belt steve madden</b>
+                              </span>
+                            </h4>
+                            <p className="text-sky">few seconds ago</p>
+                          </div>
+                        </div>
+                      </MenuItem>
+                    </div>
+
+                    <div className="btn-blue ">
+                      <Button className="btn-blue w-100">
+                        View All Notifications
+                      </Button>
+                    </div>
                   </Menu>
                 </div>
 
