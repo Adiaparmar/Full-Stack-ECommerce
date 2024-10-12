@@ -159,6 +159,7 @@ header button.rounded-circle:hover svg {
   right: 240px !important;
   width: 310px !important;
   left: auto !important;
+  top: 70px !important;
 }
 
 .dropdown_list .head {
@@ -291,6 +292,9 @@ header button.rounded-circle:hover svg {
 .main .sidebarWrapper .sidebar ul li button.active {
   background: #f1f1f1;
 }
+.main .sidebarWrapper .sidebar ul li button.active .icon svg {
+  color: #0858f7 !important;
+}
 .main .sidebarWrapper .sidebar ul li button.active .arrow {
   transform: rotate(90deg);
 }
@@ -374,4 +378,93 @@ header button.rounded-circle:hover svg {
 
 .logoutWrapper .logoutBox button svg {
   margin-right: 10px;
+}
+
+.right-content {
+  padding: 90px 30px;
+}
+
+.dashboardBoxWrapper {
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.dashboardBoxWrapper .dashboardBox {
+  width: 48%;
+  height: 170px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  color: white;
+}
+
+.main .content {
+  width: 80%;
+  flex: 0 0 80%;
+}
+
+.dashboardBoxWrapper .dashboardBox .col1 h4 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.dashboardBoxWrapper .dashboardBox .col1 span {
+  font-size: 35px;
+  font-weight: bold;
+  line-height: 45px;
+}
+.dashboardBoxWrapper .dashboardBox .icon {
+  margin-left: 14rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.3)
+  );
+}
+
+.dashboardBoxWrapper .dashboardBox .icon svg {
+  font-size: 36px;
+  opacity: 0.4;
+  color: #fff;
+}
+.dashboardBoxWrapperRow .box {
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+}
+
+.dashboardBoxWrapper .dashboardBox .toggleIcons {
+  font-size: 22px;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  min-width: 40px !important;
+  height: 40px !important;
+  margin-left: auto;
+  border-radius: 50%;
+}
+
+.dashboardBoxWrapper .dashboardBox .chart {
+  opacity: 0.1;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.dashboardBoxWrapper .dashboardBox .chart svg {
+  font-size: 110px;
+  color: #000;
+}
+
+.dashboardBoxWrapper .dashboardBox .bottomEle {
+  position: relative;
+  top: 15px;
 }
