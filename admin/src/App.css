@@ -37,11 +37,13 @@ body {
 header {
   width: 100%;
   height: 70px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.8);
   position: fixed;
   top: 0px;
   left: 0px;
   z-index: 1000;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 
 header .logo {
@@ -527,4 +529,91 @@ header button.rounded-circle:hover svg {
   font-size: 18px;
   font-weight: bold;
   color: #403e57;
+}
+
+.cardFilters .col-md-3 h4 {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #403e57;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #403e57 !important;
+}
+.table .thead-dark th {
+  background-color: #1866ee !important;
+  color: #fff;
+  border: 0.5px solid #b3b3b3 !important;
+  font-size: 13px !important;
+  font-weight: 600;
+}
+
+.table tbody td {
+  font-size: 14px;
+  color: #403e57 !important;
+  border: 0.2px solid #b3b3b3 !important;
+  font-weight: 600;
+}
+
+.table tbody .actions button {
+  min-width: 32px !important;
+  width: 25px !important;
+  height: 25px !important;
+  margin: 0px 3px !important;
+}
+
+.table tbody .actions button svg {
+  font-size: 20px !important;
+}
+
+table.v-align td {
+  vertical-align: middle !important;
+}
+
+table td .info h6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+table td .info p {
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+table.v-align td .productBox {
+  width: 260px;
+}
+
+/* table.v-align td .productBox .info {
+  width: 100%;
+} */
+
+table td .imgWrapper {
+  width: 20%;
+  flex: 0 0 20%;
+}
+table td .info {
+  width: 75%;
+  flex: 0 0 75%;
+}
+
+.tableFooter {
+  padding-bottom: 20px;
+}
+.pagination {
+  margin-left: auto;
+}
+.css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selector {
+  background-color: #0858f7 !important;
 }
