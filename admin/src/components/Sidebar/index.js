@@ -7,14 +7,14 @@ import { IoIosSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
+// import { MyContext } from "../../App";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
+
   const isOpenSubmenu = (index) => {
     setActiveTab(index);
-    console.log(activeTab);
-    console.log(isToggleSubmenu);
     setIsToggleSubmenu(!isToggleSubmenu);
   };
   return (

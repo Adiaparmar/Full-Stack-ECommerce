@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import Button from "@mui/material/Button";
-import { MdMenuOpen } from "react-icons/md";
+import { MdMenuOpen, MdOutlineMenu } from "react-icons/md";
 // import { MdOutlineMenu } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
 // import { MdDarkMode } from "react-icons/md";
@@ -22,13 +22,17 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MyContext } from "../../App";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpennotificationDrop, setisOpennotificationDrop] = useState(false);
   const openMyAcc = Boolean(anchorEl);
   const openNotifications = Boolean(isOpennotificationDrop);
+
+  const context = useContext(MyContext);
+
   const handleOpenMyAccDrop = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,8 +60,17 @@ const Header = () => {
               </div>
 
               <div className="col-xs-3 d-flex align-item-center part-2 pl-4">
-                <Button className="rounded-circle mr-3">
-                  <MdMenuOpen />
+                <Button
+                  className="rounded-circle mr-3 "
+                  onClick={() =>
+                    context.setIsToggleSidebar(!context.isToggleSidebar)
+                  }
+                >
+                  {context.isToggleSidebar === false ? (
+                    <MdMenuOpen />
+                  ) : (
+                    <MdOutlineMenu />
+                  )}
                 </Button>
                 <SearchBox />
               </div>

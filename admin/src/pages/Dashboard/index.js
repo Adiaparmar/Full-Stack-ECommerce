@@ -485,6 +485,9 @@ const Dashboard = () => {
               </tbody>
             </table>
             <div className="d-flex tableFooter">
+              <p>
+                showing <b>12</b> of <b>60 </b>results
+              </p>
               <Pagination
                 count={10}
                 color="primary"
