@@ -271,84 +271,91 @@ const Header = () => {
                     </div>
                   </Menu>
                 </div>
+                {context.isLogin !== true ? (
+                  <Link to={"/login"}>
+                    <Button className="btn-blue btn-lg btn-round">
+                      Sign In
+                    </Button>
+                  </Link>
+                ) : (
+                  <div className="myAccWrapper align-items-center">
+                    <div
+                      className="myAcc d-flex align-items-center"
+                      onClick={handleOpenMyAccDrop}
+                    >
+                      <div className="userImg">
+                        <span className="rounded-circle">
+                          <img
+                            src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                            alt="userImg"
+                          />
+                        </span>
+                      </div>
 
-                <div className="myAccWrapper align-items-center">
-                  <div
-                    className="myAcc d-flex align-items-center"
-                    onClick={handleOpenMyAccDrop}
-                  >
-                    <div className="userImg">
-                      <span className="rounded-circle">
-                        <img
-                          src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                          alt="userImg"
-                        />
-                      </span>
+                      <div className="userInfo">
+                        <h4>Adiaparmar</h4>
+                        <p className="mb-0">@adiaparmar</p>
+                      </div>
                     </div>
 
-                    <div className="userInfo">
-                      <h4>Adiaparmar</h4>
-                      <p className="mb-0">@adiaparmar</p>
-                    </div>
-                  </div>
-
-                  <Menu
-                    anchorEl={anchorEl}
-                    id="account-menu"
-                    open={openMyAcc}
-                    onClose={handleCloseMyAccDrop}
-                    onClick={handleCloseMyAccDrop}
-                    slotProps={{
-                      paper: {
-                        elevation: 0,
-                        sx: {
-                          overflow: "visible",
-                          filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                          mt: 1.5,
-                          "& .MuiAvatar-root": {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
-                          },
-                          "&::before": {
-                            content: '""',
-                            display: "block",
-                            position: "absolute",
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: "background.paper",
-                            transform: "translateY(-50%) rotate(45deg)",
-                            zIndex: 0,
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={openMyAcc}
+                      onClose={handleCloseMyAccDrop}
+                      onClick={handleCloseMyAccDrop}
+                      slotProps={{
+                        paper: {
+                          elevation: 0,
+                          sx: {
+                            overflow: "visible",
+                            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                            mt: 1.5,
+                            "& .MuiAvatar-root": {
+                              width: 32,
+                              height: 32,
+                              ml: -0.5,
+                              mr: 1,
+                            },
+                            "&::before": {
+                              content: '""',
+                              display: "block",
+                              position: "absolute",
+                              top: 0,
+                              right: 14,
+                              width: 10,
+                              height: 10,
+                              bgcolor: "background.paper",
+                              transform: "translateY(-50%) rotate(45deg)",
+                              zIndex: 0,
+                            },
                           },
                         },
-                      },
-                    }}
-                    transformOrigin={{ horizontal: "right", vertical: "top" }}
-                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                  >
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                      </ListItemIcon>
-                      My Account
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <Settings fontSize="small" />
-                      </ListItemIcon>
-                      Reset Password
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseMyAccDrop}>
-                      <ListItemIcon>
-                        <Logout fontSize="small" />
-                      </ListItemIcon>
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                </div>
+                      }}
+                      transformOrigin={{ horizontal: "right", vertical: "top" }}
+                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                    >
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <ListItemIcon>
+                          <PersonAdd fontSize="small" />
+                        </ListItemIcon>
+                        My Account
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <ListItemIcon>
+                          <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Reset Password
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseMyAccDrop}>
+                        <ListItemIcon>
+                          <Logout fontSize="small" />
+                        </ListItemIcon>
+                        Logout
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                )}
               </div>
             </div>
           </div>
