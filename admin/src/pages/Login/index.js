@@ -100,8 +100,8 @@ const Login = () => {
           </form>
         </div>
 
-        <div className="wrapper mt-3 card border p-4 footer">
-          <div className="form-group mb-3 text-center">
+        <div className="wrapper mt-3 card border footer">
+          <div className="form-group text-center">
             <span className="txt">Don't have an account?</span>
             <Link to={"/signUp"} className="link color">
               Register
