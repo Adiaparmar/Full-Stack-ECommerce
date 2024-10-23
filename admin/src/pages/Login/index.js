@@ -13,7 +13,7 @@ const Login = () => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const context = useContext(MyContext);
   useEffect(() => {
-    context.setIsHideSidebarAndHeader(true);
+    context.setisHideSidebarAndHeader(true);
   });
   const focusInput = (index) => {
     setInputIndex(index);

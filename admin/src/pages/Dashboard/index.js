@@ -3,7 +3,7 @@ import { IoIosTimer, IoMdCart } from "react-icons/io";
 import { MdDelete, MdShoppingBag } from "react-icons/md";
 import { GiStarsStack } from "react-icons/gi";
 import DashboardBox from "./components/dashboardBox";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { HiDotsVertical } from "react-icons/hi";
 import { Chart } from "react-google-charts";
@@ -11,6 +11,7 @@ import { Chart } from "react-google-charts";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
+import { MyContext } from "../../App";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -32,6 +33,11 @@ const Dashboard = () => {
   const open = Boolean(anchorEl);
 
   const ITEM_HEIGHT = 48;
+  const context = useContext(MyContext);
+  useEffect(() => {
+    context.setisHideSidebarAndHeader(false);
+  }, [context]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
