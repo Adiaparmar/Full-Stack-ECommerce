@@ -12,16 +12,17 @@ import { IoShieldCheckmarkSharp } from "react-icons/io5";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CheckBox from "@mui/material/Checkbox";
 import { IoMdHome } from "react-icons/io";
+import { MyContext } from "../../App";
 
 const SignUp = () => {
   const [inputIndex, setInputIndex] = useState(null);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
-  //   const context = useContext(MyContext);
+  const context = useContext(MyContext);
 
-  //   useEffect(() => {
-  //     context.setIsHideSidebarAndHeader(true);
-  //   }, [context]);
+  useEffect(() => {
+    context.setisHideSidebarAndHeader(true);
+  }, [context]);
   const focusInput = (index) => {
     setInputIndex(index);
   };
@@ -74,6 +75,7 @@ const SignUp = () => {
                     placeholder="Enter your Name"
                     onFocus={() => focusInput(0)}
                     onBlur={() => setInputIndex(null)}
+                    autoFocus
                   />
                 </div>
 

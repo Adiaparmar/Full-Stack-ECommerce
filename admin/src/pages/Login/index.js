@@ -42,6 +42,7 @@ const Login = () => {
                 placeholder="Enter your email"
                 onFocus={() => focusInput(0)}
                 onBlur={() => setInputIndex(null)}
+                autoFocus
               />
             </div>
 

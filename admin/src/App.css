@@ -10,6 +10,10 @@ body {
   background: #ebe9e9;
 }
 
+body.dark {
+  background: #071739 !important;
+}
+
 ::-webkit-scrrollbar {
   width: 5px !important;
   height: 5px !important;
@@ -100,6 +104,10 @@ header {
   backdrop-filter: blur(5px);
 }
 
+body.dark header {
+  background: #112143 !important;
+}
+
 header .logo {
   text-decoration: none;
 }
@@ -113,6 +121,11 @@ header .logo span {
   font-size: 24px;
   margin-left: 10px;
   margin-right: 5rem;
+}
+
+body.dark header .logo span {
+  color: #fff;
+  opacity: 0.8;
 }
 
 header button.rounded-circle {
@@ -133,12 +146,24 @@ header button.rounded-circle:hover svg {
   color: #0858f7 !important;
 }
 
+body.dark header button.rounded-circle {
+  background: #12254e !important;
+}
+
+body.dark header button.rounded-circle svg {
+  color: #fff !important;
+}
+
 .searchBox {
   width: 400px;
   height: 40px;
   background: #f0f5ff;
   border-radius: 6px;
   padding: 3px 15px;
+}
+
+body.dark .searchBox {
+  background: #12254e !important;
 }
 
 .searchBox input {
@@ -151,6 +176,12 @@ header button.rounded-circle:hover svg {
 }
 .searchBox input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark .searchBox input,
+body.dark .searchBox input::-webkit-input-placeholder,
+body.dark .searchBox svg {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .searchBox svg {
@@ -211,8 +242,19 @@ header button.rounded-circle:hover svg {
   opacity: 0.7;
 }
 
+body.dark .myAcc .userInfo * {
+  color: rgba(255, 255, 255, 0.8);
+}
+body.dark .MuiPaper-elevation {
+  background: #12254e !important;
+}
+body.dark .MuiPaper-elevation li *,
+body.dark .MuiPaper-elevation li {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 #notifications .MuiPaper-elevation {
-  right: 240px !important;
+  right: 170px !important;
   width: 310px !important;
   left: auto !important;
   top: 70px !important;
@@ -228,10 +270,19 @@ header button.rounded-circle:hover svg {
   padding-bottom: 0px !important;
   padding-left: 10px !important;
 }
+
+body.dark .dropdown_list .head h4 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 .dropdown_list li.MuiButtonBase-root {
   background: #ebf6ff !important;
   color: #000;
   padding: 10px 15px !important;
+}
+
+body.dark .dropdown_list li.MuiButtonBase-root {
+  background-color: #12254e !important;
+  background: #12254e !important;
 }
 
 .dropdown_list li.MuiButtonBase-root:hover {
@@ -294,6 +345,10 @@ header button.rounded-circle:hover svg {
   transition: all 0.3s ease-in-out;
 }
 
+body.dark .main .sidebarWrapper .sidebar {
+  background: #122143 !important;
+}
+
 .main .sidebarWrapper.toggle .sidebar {
   left: -100%;
 }
@@ -326,6 +381,10 @@ header button.rounded-circle:hover svg {
   font-family: "Open Sans", sans-serif !important;
 }
 
+body.dark .main .sidebarWrapper .sidebar ul li button {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .main .sidebarWrapper .sidebar ul li button .icon {
   display: flex;
   align-items: center;
@@ -356,8 +415,16 @@ header button.rounded-circle:hover svg {
 .main .sidebarWrapper .sidebar ul li button:hover {
   background: #f1f1f1;
 }
+
+body.dark .main .sidebarWrapper .sidebar ul li button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
 .main .sidebarWrapper .sidebar ul li button.active {
   background: #f1f1f1;
+}
+
+body.dark .main .sidebarWrapper .sidebar ul li button.active {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 .main .sidebarWrapper .sidebar ul li button.active .icon svg {
   color: #0858f7 !important;
@@ -379,6 +446,10 @@ header button.rounded-circle:hover svg {
   left: 25px;
   background: rgba(0, 0, 0, 0.2);
 }
+
+body.dark .main .sidebarWrapper .sidebar ul .submenu::before {
+  background: rgba(255, 255, 255, 0.2);
+}
 .main .sidebarWrapper .sidebar ul .submenu li {
   width: 100%;
   list-style: none;
@@ -392,8 +463,15 @@ header button.rounded-circle:hover svg {
   font-weight: 500;
   transition: all 0.3s;
 }
+body.dark .main .sidebarWrapper .sidebar ul .submenu li a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 
 .main .sidebarWrapper .sidebar ul .submenu li a:hover {
+  color: #0858f7 !important;
+}
+
+body.dark .main .sidebarWrapper .sidebar ul .submenu li a:hover {
   color: #0858f7 !important;
 }
 
@@ -438,6 +516,10 @@ header button.rounded-circle:hover svg {
   justify-content: center;
 }
 
+body.dark .logoutWrapper .logoutBox {
+  background-image: linear-gradient(#183e8c, #163474) !important;
+  background: transparent;
+}
 .logoutWrapper .logoutBox button {
   font-size: 15px !important;
   font-weight: 600 !important;
@@ -601,6 +683,19 @@ header button.rounded-circle:hover svg {
   color: #403e57;
 }
 
+body.dark .card {
+  background: #112143 !important;
+  background-color: #112143 !important;
+}
+
+body.dark .card .hd {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+body.dark .cardFilters .col-md-3 h4 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 .cardFilters .col-md-3 h4 {
   font-size: 16px;
   font-weight: 700;
@@ -615,6 +710,23 @@ h4,
 h5,
 h6 {
   color: #403e57 !important;
+}
+
+body.dark
+  .css-bgvwm1-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select,
+/* body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p, */
+body.dark .css-1u6jos5-MuiSvgIcon-root-MuiSelect-icon {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.8) !important;
 }
 .table .thead-dark th {
   background-color: #1866ee !important;
@@ -681,6 +793,7 @@ table td .info {
 .tableFooter {
   padding-bottom: 20px;
 }
+
 .pagination {
   margin-left: auto;
 }
@@ -688,12 +801,27 @@ table td .info {
   background-color: #0858f7 !important;
 }
 
+.css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root:hover {
+  color: rgba(255, 255, 255, 0.7);
+  background: #0858f7 !important;
+}
+
+body.dark .css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* body.dark .css-1gaup4j-MuiButtonBase-root-MuiPaginationItem-root:hover {
+  color: #0858f7 !important;
+} */
 .tableFooter p {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 0px;
 }
 
+body.dark .tableFooter p {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
 .loginSection {
   width: 100%;
   height: 100vh;

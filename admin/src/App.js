@@ -4,7 +4,7 @@ import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
@@ -14,6 +14,19 @@ function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
+  const [themeMode, setThemeMode] = useState(true);
+
+  useEffect(() => {
+    if (themeMode === true) {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+      localStorage.setItem("themeMode", "light");
+    } else {
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+      localStorage.setItem("themeMode", "dark");
+    }
+  }, [themeMode]);
 
   const values = {
     isToggleSidebar,
@@ -22,6 +35,8 @@ function App() {
     setIsLogin,
     isHideSidebarAndHeader,
     setisHideSidebarAndHeader,
+    themeMode,
+    setThemeMode,
   };
 
   return (
