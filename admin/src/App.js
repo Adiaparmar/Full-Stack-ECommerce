@@ -7,6 +7,8 @@ import Sidebar from "./components/Sidebar";
 import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Product from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 const MyContext = createContext();
 
@@ -64,6 +66,12 @@ function App() {
               <Route path="/dashboard" exact={true} element={<Dashboard />} />
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />
+              <Route path="/products" exact={true} element={<Product />} />
+              <Route
+                path="/product/details"
+                exact={true}
+                element={<ProductDetails />}
+              />
             </Routes>
           </div>
         </div>
