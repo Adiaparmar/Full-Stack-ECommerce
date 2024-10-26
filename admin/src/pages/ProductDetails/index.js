@@ -1,14 +1,19 @@
+/* eslint-disable react/style-prop-object */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import { emphasize, styled } from "@mui/material/styles";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
-import React from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import { MdBrandingWatermark } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import UserAvatarImgComponent from "../../components/userAvatarImg";
+import { Button, Rating } from "@mui/material";
+import { FaReply } from "react-icons/fa";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -31,6 +36,9 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 });
 
 const ProductDetails = () => {
+  const productSliderBig = useRef();
+  const productSliderSml = useRef();
+
   const productSliderOptions = {
     dots: false,
     infinite: false,
@@ -66,8 +74,11 @@ const ProductDetails = () => {
   };
 
   const imageSrc =
-    "https://images.meesho.com/images/products/204307799/pd2lf_1200.jpg";
+    "https://kingdomofwhite.com/cdn/shop/files/KOW53716_3000x.jpg?v=1724396209";
 
+  const goToSlide = (index) => {
+    productSliderBig.current.slickGoTo(index);
+  };
   return (
     <>
       <div className="right-content w-100">
@@ -85,26 +96,70 @@ const ProductDetails = () => {
           </Breadcrumbs>
         </div>
 
-        <div className="card productDetailsSection">
+        <div className="card productDetailsSection ">
           <div className="row">
             <div className="col-md-5 pt-3 pb-3 pl-4 pr-4">
               <div className="slidebarWrapper p-3">
                 <h5 className="mb-3">Product Gallery</h5>
-                <Slider {...productSliderOptions} className="sliderBig mb-3">
+                <Slider
+                  {...productSliderOptions}
+                  ref={productSliderBig}
+                  className="sliderBig mb-3"
+                >
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item">
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
                   <div className="item">
                     <img src={imageSrc} alt="prod" className="w-100" />
                   </div>
                 </Slider>
-                <Slider {...productSliderSmlOptions} className="sliderSml">
-                  {[...Array(9)].map((_, index) => (
-                    <div className="item" key={index}>
-                      <img
-                        src={imageSrc}
-                        alt={`prod-${index}`}
-                        className="w-100"
-                      />
-                    </div>
-                  ))}
+                <Slider
+                  {...productSliderSmlOptions}
+                  ref={productSliderSml}
+                  className="sliderSml"
+                >
+                  <div className="item" onClick={() => goToSlide(1)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(2)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(3)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(4)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(5)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(6)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(7)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
+                  <div className="item" onClick={() => goToSlide(8)}>
+                    <img src={imageSrc} alt="prod" className="w-100" />
+                  </div>
                 </Slider>
               </div>
             </div>
@@ -270,6 +325,306 @@ const ProductDetails = () => {
                       <span>:</span> <span>02 Feb 2023</span>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4">
+            <h5 className="mt-4 mb-3">Product Description</h5>
+            <p className="proddesc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est
+              laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+
+            <br />
+            <h5 className="mt-4 mb-4">Rating Analytics</h5>
+            <div className="ratingSection">
+              <div className="ratingrow d-flex align-item-center">
+                <span className="col1">5 star</span>
+                <span className="col2">
+                  <div className="progress">
+                    <div
+                      className="progress-bar"
+                      style={{ width: "70%" }}
+                    ></div>
+                  </div>
+                </span>
+                <span className="col3">(22)</span>
+              </div>
+
+              <div className="ratingrow d-flex align-item-center">
+                <span className="col1">4 star</span>
+                <span className="col2">
+                  <div className="progress">
+                    <div
+                      className="progress-bar"
+                      style={{ width: "30%" }}
+                    ></div>
+                  </div>
+                </span>
+                <span className="col3">(2)</span>
+              </div>
+
+              <div className="ratingrow d-flex align-item-center">
+                <span className="col1">3 star</span>
+                <span className="col2">
+                  <div className="progress">
+                    <div
+                      className="progress-bar"
+                      style={{ width: "50%" }}
+                    ></div>
+                  </div>
+                </span>
+                <span className="col3">(42)</span>
+              </div>
+
+              <div className="ratingrow d-flex align-item-center">
+                <span className="col1">2 star</span>
+                <span className="col2">
+                  <div className="progress">
+                    <div
+                      className="progress-bar"
+                      style={{ width: "30%" }}
+                    ></div>
+                  </div>
+                </span>
+                <span className="col3">(32)</span>
+              </div>
+
+              <div className="ratingrow d-flex align-item-center">
+                <span className="col1">1 star</span>
+                <span className="col2">
+                  <div className="progress">
+                    <div
+                      className="progress-bar"
+                      style={{ width: "20%" }}
+                    ></div>
+                  </div>
+                </span>
+                <span className="col3">(12)</span>
+              </div>
+            </div>
+
+            <br />
+
+            <h5 className="mt-4 mb-4">Customer Reviews</h5>
+
+            <div className="reviewsSection">
+              <div className="reviewsRow">
+                <div className="row">
+                  <div className="col-sm-7 d-flex">
+                    <div className="d-flex  flex-column">
+                      <div className="userInfo d-flex mb-3 align-items-center">
+                        <UserAvatarImgComponent
+                          img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          lg={true}
+                        />
+                        <div className="info pl-2">
+                          <h5>Miron Mahmud</h5>
+                          <span>25 mins ago</span>
+                        </div>
+                      </div>
+
+                      <Rating
+                        name="read-only"
+                        value={4.5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-sm-5 d-flex align-items-center">
+                    <div className="btn-rev">
+                      <Button className=" btn-blue btn-big btn-lg ml-auto">
+                        <FaReply /> &nbsp; Reply
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="mt-3">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor.
+                  </p>
+                </div>
+              </div>
+
+              <div className="reviewsRow reply">
+                <div className="row">
+                  <div className="col-sm-7 d-flex">
+                    <div className="d-flex  flex-column">
+                      <div className="userInfo d-flex mb-3 align-items-center">
+                        <UserAvatarImgComponent
+                          img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          lg={true}
+                        />
+                        <div className="info pl-2">
+                          <h5>Miron Mahmud</h5>
+                          <span>25 mins ago</span>
+                        </div>
+                      </div>
+
+                      <Rating
+                        name="read-only"
+                        value={4.5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-sm-5 d-flex align-items-center">
+                    <div className="btn-rev">
+                      <Button className=" btn-blue btn-big btn-lg ml-auto">
+                        <FaReply /> &nbsp; Reply
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="mt-3">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor.
+                  </p>
+                </div>
+              </div>
+
+              <div className="reviewsRow reply">
+                <div className="row">
+                  <div className="col-sm-7 d-flex">
+                    <div className="d-flex  flex-column">
+                      <div className="userInfo d-flex mb-3 align-items-center">
+                        <UserAvatarImgComponent
+                          img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          lg={true}
+                        />
+                        <div className="info pl-2">
+                          <h5>Miron Mahmud</h5>
+                          <span>25 mins ago</span>
+                        </div>
+                      </div>
+
+                      <Rating
+                        name="read-only"
+                        value={4.5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-sm-5 d-flex align-items-center">
+                    <div className="btn-rev">
+                      <Button className=" btn-blue btn-big btn-lg ml-auto">
+                        <FaReply /> &nbsp; Reply
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="mt-3">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor.
+                  </p>
+                </div>
+              </div>
+
+              <div className="reviewsRow">
+                <div className="row">
+                  <div className="col-sm-7 d-flex">
+                    <div className="d-flex  flex-column">
+                      <div className="userInfo d-flex mb-3 align-items-center">
+                        <UserAvatarImgComponent
+                          img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          lg={true}
+                        />
+                        <div className="info pl-2">
+                          <h5>Miron Mahmud</h5>
+                          <span>25 mins ago</span>
+                        </div>
+                      </div>
+
+                      <Rating
+                        name="read-only"
+                        value={4.5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-sm-5 d-flex align-items-center">
+                    <div className="btn-rev">
+                      <Button className=" btn-blue btn-big btn-lg ml-auto">
+                        <FaReply /> &nbsp; Reply
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="mt-3">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor.
+                  </p>
+                </div>
+              </div>
+
+              <div className="reviewsRow">
+                <div className="row">
+                  <div className="col-sm-7 d-flex">
+                    <div className="d-flex  flex-column">
+                      <div className="userInfo d-flex mb-3 align-items-center">
+                        <UserAvatarImgComponent
+                          img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          lg={true}
+                        />
+                        <div className="info pl-2">
+                          <h5>Miron Mahmud</h5>
+                          <span>25 mins ago</span>
+                        </div>
+                      </div>
+
+                      <Rating
+                        name="read-only"
+                        value={4.5}
+                        precision={0.5}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-sm-5 d-flex align-items-center">
+                    <div className="btn-rev">
+                      <Button className=" btn-blue btn-big btn-lg ml-auto">
+                        <FaReply /> &nbsp; Reply
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="mt-3">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor.
+                  </p>
                 </div>
               </div>
             </div>

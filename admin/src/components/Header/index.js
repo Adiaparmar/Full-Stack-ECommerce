@@ -24,6 +24,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useContext, useState } from "react";
 import { MyContext } from "../../App";
+import UserAvatarImgComponent from "../userAvatarImg";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -143,16 +144,11 @@ const Header = () => {
                     <div className="scroll">
                       <MenuItem onClick={handleCloseMyAccDrop}>
                         <div className="d-flex align-items-center">
-                          <div>
-                            <div className="userImg">
-                              <span className="rounded-circle">
-                                <img
-                                  src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                  alt="userImg"
-                                />
-                              </span>
-                            </div>
-                          </div>
+                          <UserAvatarImgComponent
+                            img={
+                              "https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                            }
+                          />
                           <div className="dropdownInfo">
                             <h4>
                               <span>
