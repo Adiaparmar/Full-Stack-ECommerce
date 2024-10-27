@@ -1,18 +1,37 @@
 import { FaEye, FaPencilAlt, FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
 import { MdDelete, MdShoppingBag } from "react-icons/md";
-// import { GiStarsStack } from "react-icons/gi";
 import DashboardBox from "../Dashboard/components/dashboardBox";
 import { useContext, useEffect, useState } from "react";
-import { Button, MenuItem } from "@mui/material";
-// import { HiDotsVertical } from "react-icons/hi";
-// import { Chart } from "react-google-charts";
-
+import { Button, emphasize, MenuItem, styled } from "@mui/material";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Chip from "@mui/material/Chip";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
 import { MyContext } from "../../App";
 import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+
+const StyledBreadcrumb = styled(Chip)(({ theme }) => {
+  const backgroundColor =
+    theme.palette.mode === "light"
+      ? theme.palette.grey[100]
+      : theme.palette.grey[800];
+  return {
+    backgroundColor,
+    height: theme.spacing(3),
+    color: theme.palette.text.primary,
+    fontWeight: theme.typography.fontWeightRegular,
+    "&:hover, &:focus": {
+      backgroundColor: emphasize(backgroundColor, 0.06),
+    },
+    "&:active": {
+      boxShadow: theme.shadows[1],
+      backgroundColor: emphasize(backgroundColor, 0.12),
+    },
+  };
+});
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -49,6 +68,19 @@ const Dashboard = () => {
   return (
     <>
       <div className="right-content w-100">
+        <div className="card shadow border-0 w-100 flex-row p-4 justify-content-between">
+          <h5 className="mb-0 breadhead">Product List</h5>
+          <Breadcrumbs aria-label="breadcrumb" className="ml-auto breadcrumbs_">
+            <StyledBreadcrumb
+              components="a"
+              href="#"
+              label="Dashboard"
+              icon={<HomeIcon fontSize="small" />}
+            />
+            <StyledBreadcrumb label="Products" components="a" href="#" />
+            <StyledBreadcrumb label="Products List" />
+          </Breadcrumbs>
+        </div>
         <div className="row dashboardBoxWrapperRow">
           <div className="col-md-12">
             <div className="dashboardBoxWrapper d-flex flex-nowrap">
