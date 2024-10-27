@@ -1163,3 +1163,47 @@ body.dark .reviewsSection p {
 .reviewsSection .reviewsRow .btn-big svg {
   font-size: 18px !important;
 }
+
+.form .form-group {
+  margin-bottom: 20px;
+}
+
+.form .form-group h6 {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.form .form-group input,
+.form .form-group textarea {
+  background: #fafafa;
+  width: 100%;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding-left: 15px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.form .form-group textarea {
+  padding-top: 15px;
+  height: 120px;
+}
+
+body.dark .form .form-group input,
+body.dark .form .form-group textarea {
+  background: #2b3c5f !important;
+  border: 1px solid #253557;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark .form .form-group h6 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark em {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .form .row .col h6 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
