@@ -1207,3 +1207,38 @@ body.dark em {
 body.dark .form .row .col h6 {
   color: rgba(255, 255, 255, 0.8) !important;
 }
+
+.dot {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+}
+
+td {
+  text-align: center;
+}
+
+.dotdiv {
+  padding-left: 40px !important;
+  width: 100px !important;
+}
+
+.productBox {
+  justify-content: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.editModal .css-rsks93-MuiPaper-root-MuiDialog-paper {
+  width: 600px !important;
+}
+
+button .loader {
+  width: 25px;
+  height: 25px;
+  color: #fff !important;
+}
