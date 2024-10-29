@@ -21,6 +21,8 @@ function App() {
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
 
+  const [progress, setProgress] = useState(0);
+
   useEffect(() => {
     if (themeMode === true) {
       document.body.classList.remove("dark");
@@ -42,6 +44,8 @@ function App() {
     setisHideSidebarAndHeader,
     themeMode,
     setThemeMode,
+    progress,
+    setProgress,
   };
 
   return (

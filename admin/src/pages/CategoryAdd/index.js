@@ -31,7 +31,7 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 const AddCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [error, setError] = useState(false);
   const [formFields, setFormFields] = useState({
     name: "",
     images: [],
@@ -57,11 +57,20 @@ const AddCategory = () => {
 
   const addCategory = (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    postData("/api/category/create", formFields).then((res) => {
-      setIsLoading(false);
-      history("/categories");
-    });
+
+    if (
+      formFields.name !== "" &&
+      formFields.images.length !== 0 &&
+      formFields.color !== ""
+    ) {
+      setIsLoading(true);
+      postData("/api/category/create", formFields).then((res) => {
+        setIsLoading(false);
+        history("/categories");
+      });
+    } else {
+      setError(true);
+    }
   };
   return (
     <div className="right-content w-100">
@@ -83,6 +92,9 @@ const AddCategory = () => {
         <div className="row">
           <div className="col-sm-9">
             <div className="card p-4">
+              {error === true && (
+                <p className="text-danger">Please fill all the fields </p>
+              )}
               <div className="form-group">
                 <h6>Category Name</h6>
                 <input type="text" name="name" onChange={changeInput} />

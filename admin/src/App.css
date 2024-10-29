@@ -1242,3 +1242,11 @@ button .loader {
   height: 25px;
   color: #fff !important;
 }
+
+body.dark .css-1jk99ih-MuiInputBase-input-MuiOutlinedInput-input {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark .css-18pjc51-MuiFormLabel-root-MuiInputLabel-root {
+  color: rgba(255, 255, 255, 1) !important;
+}
