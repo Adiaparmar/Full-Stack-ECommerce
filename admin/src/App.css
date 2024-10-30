@@ -1180,8 +1180,8 @@ body.dark .reviewsSection p {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding-left: 15px;
-  height: 40px;
-  font-size: 14px;
+  height: 55px;
+  font-size: 15px;
 }
 
 .form .form-group textarea {
@@ -1249,4 +1249,43 @@ body.dark .css-1jk99ih-MuiInputBase-input-MuiOutlinedInput-input {
 
 body.dark .css-18pjc51-MuiFormLabel-root-MuiInputLabel-root {
   color: rgba(255, 255, 255, 1) !important;
+}
+
+.stickyBox {
+  position: sticky;
+  top: 100px;
+}
+
+.sticyBox h4 {
+  font-size: 22px;
+}
+
+.imgGrid {
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.imgGrid .img {
+  height: 160px;
+  width: 47%;
+  overflow: hidden;
+  border-radius: 7px;
+}
+
+.imgGrid .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inputBtn {
+  position: relative;
+}
+
+.inputBtn button {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  z-index: 100;
 }

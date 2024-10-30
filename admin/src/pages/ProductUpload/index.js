@@ -5,8 +5,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Button, MenuItem } from "@mui/material";
 import { Select } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { MyContext } from "../../App";
+import { fetchDataFromApi, postData } from "../../utils/api";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -31,8 +33,86 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 const ProductUpload = () => {
   const [categoryVal, setCategoryVal] = useState("");
   const [ratingsValue, setRatingsValue] = useState(1);
+  const [isFeaturedValue, setisFeaturedValue] = useState("");
+  const [catData, setCatData] = useState([]);
+  const [productImagesArr, setProductImagesArr] = useState([]);
+  const [formFields, setFormFields] = useState({
+    name: "",
+    description: "",
+    images: [],
+    brand: "",
+    price: 0,
+    oldPrice: 0,
+    category: "",
+    countInStock: 0,
+    rating: 0,
+    isFeatured: false,
+  });
+  const context = useContext(MyContext);
+  const productImages = useRef(null);
+
+  useEffect(() => {
+    context.setProgress(20);
+
+    fetchDataFromApi("/api/category").then((res) => {
+      setCatData(res);
+      context.setProgress(100);
+    });
+  }, [context]);
+
   const handleChangeCategory = (event) => {
     setCategoryVal(event.target.value);
+    setFormFields((e) => ({
+      ...formFields,
+      category: event.target.value,
+    }));
+  };
+
+  const handleChangeisFeaturedValue = (event) => {
+    setisFeaturedValue(event.target.value);
+    setFormFields((e) => ({
+      ...formFields,
+      isFeatured: event.target.value,
+    }));
+  };
+
+  const addProductImages = () => {
+    setProductImagesArr((prevArray) => [
+      ...prevArray,
+      productImages.current.value,
+    ]);
+    productImages.current.value = "";
+  };
+
+  const inputChange = (e) => {
+    setFormFields(() => ({
+      ...formFields,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const addProduct = (e) => {
+    e.preventDefault();
+    formFields.images = productImagesArr;
+    postData("/api/products/create", formFields).then((res) => {
+      alert("Product Added Successfully");
+
+      setFormFields({
+        name: "",
+        description: "",
+        images: [],
+        brand: "",
+        price: 0,
+        oldPrice: 0,
+        category: "",
+        countInStock: 0,
+        rating: 0,
+        isFeatured: false,
+      });
+      setProductImagesArr([]);
+      setCategoryVal("");
+      setisFeaturedValue("");
+    });
   };
   return (
     <div className="right-content w-100">
@@ -50,19 +130,30 @@ const ProductUpload = () => {
         </Breadcrumbs>
       </div>
 
-      <form className="form">
+      <form className="form" onSubmit={addProduct}>
         <div className="row">
           <div className="col-sm-9">
             <div className="card p-4">
               <h5 className="mb-4">Basic Information</h5>
               <div className="form-group">
-                <h6>TITLE</h6>
-                <input type="text" />
+                <h6>PRODUCT NAME</h6>
+                <input
+                  type="text"
+                  name="name"
+                  onChange={inputChange}
+                  value={formFields.name}
+                />
               </div>
 
               <div className="form-group">
                 <h6>DESCRIPTION</h6>
-                <textarea rows={5} cols={10} />
+                <textarea
+                  rows={5}
+                  cols={10}
+                  name="description"
+                  onChange={inputChange}
+                  value={formFields.description}
+                />
               </div>
 
               <div className="row">
@@ -71,7 +162,7 @@ const ProductUpload = () => {
                     <h6>CATEGORY</h6>
                     <Select
                       value={categoryVal}
-                      onChnage={handleChangeCategory}
+                      onChange={handleChangeCategory}
                       displayEmpty
                       inputProps={{ "aria-label": "Without label" }}
                       className="w-100"
@@ -79,9 +170,14 @@ const ProductUpload = () => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {catData?.categoryList?.length !== 0 &&
+                        catData?.categoryList?.map((cat, index) => {
+                          return (
+                            <MenuItem key={index} value={cat.id}>
+                              {cat.name}
+                            </MenuItem>
+                          );
+                        })}
                     </Select>
                   </div>
                 </div>
@@ -89,20 +185,12 @@ const ProductUpload = () => {
                 <div className="col">
                   <div className="form-group">
                     <h6>BRAND</h6>
-                    <Select
-                      value={categoryVal}
-                      onChnage={handleChangeCategory}
-                      displayEmpty
-                      inputProps={{ "aria-label": "Without label" }}
-                      className="w-100"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                    <input
+                      type="text"
+                      name="brand"
+                      value={formFields.brand}
+                      onChange={inputChange}
+                    />
                   </div>
                 </div>
               </div>
@@ -111,14 +199,57 @@ const ProductUpload = () => {
                 <div className="col">
                   <div className="form-group">
                     <h6>REGULAR PRICE</h6>
-                    <input type="text" />
+                    <input
+                      type="text"
+                      name="price"
+                      value={formFields.price}
+                      onChange={inputChange}
+                    />
                   </div>
                 </div>
 
                 <div className="col">
                   <div className="form-group">
                     <h6>DISCOUNTED PRICE</h6>
-                    <input type="text" />
+                    <input
+                      type="text"
+                      name="oldPrice"
+                      value={formFields.oldPrice}
+                      onChange={inputChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <div className="form-group">
+                    <h6 className="text-uppercase">is Featured</h6>
+                    <Select
+                      value={isFeaturedValue}
+                      onChange={handleChangeisFeaturedValue}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                      className="w-100"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={true}>True</MenuItem>
+                      <MenuItem value={false}>False</MenuItem>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="form-group">
+                    <h6>PRODUCT STOCK</h6>
+                    <input
+                      type="text"
+                      name="countInStock"
+                      onChange={inputChange}
+                      value={formFields.countInStock}
+                    />
                   </div>
                 </div>
               </div>
@@ -132,23 +263,55 @@ const ProductUpload = () => {
                       value={ratingsValue}
                       onChange={(event, newValue) => {
                         setRatingsValue(newValue);
+                        setFormFields((e) => ({
+                          ...formFields,
+                          rating: newValue,
+                        }));
                       }}
                     />
                   </div>
                 </div>
+              </div>
 
+              <div className="row">
                 <div className="col">
                   <div className="form-group">
-                    <h6>PRODUCT STOCK</h6>
-                    <input type="text" />
+                    <h6>PRODUCT IMAGES</h6>
+                    <div className="position-relative inputBtn">
+                      <input
+                        type="text"
+                        ref={productImages}
+                        style={{ paddingRight: "100px" }}
+                        name="images"
+                        onChange={inputChange}
+                      ></input>
+                      <Button className="btn-blue" onClick={addProductImages}>
+                        Add
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <br />
-              <Button className="btn-blue btn-lg btn-big">
+              <Button type="submit" className="btn-blue btn-lg btn-big">
                 <FaCloudUploadAlt /> &nbsp; PUBLISH & VIEW
               </Button>
+            </div>
+          </div>
+
+          <div className="col-sm-3">
+            <div className="stickyBox">
+              {productImagesArr?.length !== 0 && <h4>Product Images</h4>}
+              <div className="imgGrid d-flex" id="imgGrid">
+                {productImagesArr?.map((image, index) => {
+                  return (
+                    <div className="img" key={index}>
+                      <img src={image} alt="img" className="w-100" />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
