@@ -1289,3 +1289,8 @@ body.dark .css-18pjc51-MuiFormLabel-root-MuiInputLabel-root {
   right: 10px;
   z-index: 100;
 }
+
+body.dark
+  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

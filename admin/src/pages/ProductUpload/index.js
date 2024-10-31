@@ -3,6 +3,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import { Button, MenuItem } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Select } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -36,6 +37,7 @@ const ProductUpload = () => {
   const [isFeaturedValue, setisFeaturedValue] = useState("");
   const [catData, setCatData] = useState([]);
   const [productImagesArr, setProductImagesArr] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [formFields, setFormFields] = useState({
     name: "",
     description: "",
@@ -93,9 +95,54 @@ const ProductUpload = () => {
 
   const addProduct = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     formFields.images = productImagesArr;
+
+    if (formFields.name === "") {
+      alert("Product Name is required");
+      return false;
+    }
+    if (formFields.description === "") {
+      alert("Product Description is required");
+      return false;
+    }
+    if (formFields.brand === "") {
+      alert("Product Brand is required");
+      return false;
+    }
+    if (formFields.price !== 0 && formFields.price === "") {
+      alert("Product Price is required");
+      return false;
+    }
+    if (formFields.oldPrice !== 0 && formFields.oldPrice === "") {
+      alert("Product Old Price is required");
+      return false;
+    }
+    if (formFields.category === "") {
+      alert("Product Category is required");
+      return false;
+    }
+    if (formFields.countInStock !== 0 && formFields.countInStock === "") {
+      alert("Product Stock is required");
+      return false;
+    }
+    if (formFields.rating === 0) {
+      alert("Product Rating is required");
+      return false;
+    }
+    if (formFields.isFeatured === 0) {
+      alert("Product isFeatured is required");
+      return false;
+    }
+    if (productImagesArr.length === 0) {
+      alert("Product Images is required");
+      return false;
+    }
+
     postData("/api/products/create", formFields).then((res) => {
       alert("Product Added Successfully");
+
+      setIsLoading(false);
 
       setFormFields({
         name: "",
@@ -295,7 +342,12 @@ const ProductUpload = () => {
 
               <br />
               <Button type="submit" className="btn-blue btn-lg btn-big">
-                <FaCloudUploadAlt /> &nbsp; PUBLISH & VIEW
+                <FaCloudUploadAlt /> &nbsp;{" "}
+                {isLoading === true ? (
+                  <CircularProgress color="inherit" className="loader" />
+                ) : (
+                  "PUBLISH AND VIEW"
+                )}
               </Button>
             </div>
           </div>
