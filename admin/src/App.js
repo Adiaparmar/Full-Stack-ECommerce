@@ -20,7 +20,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(true);
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
-
+  const [baseUrl, setBaseUrl] = useState("http://localhost:4000/");
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -46,6 +46,8 @@ function App() {
     setThemeMode,
     progress,
     setProgress,
+    baseUrl,
+    setBaseUrl,
   };
 
   return (

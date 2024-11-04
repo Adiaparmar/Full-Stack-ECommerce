@@ -4,7 +4,31 @@ const express = require("express");
 const router = express.Router();
 
 const pLimit = require("p-limit");
-const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
+
+var imagesArr = [];
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/upload", upload.array("images"), async (req, res) => {
+  imagesArr = [];
+  const files = req.files;
+
+  for (let i = 0; i < files.length; i++) {
+    imagesArr.push(files[i].filename);
+  }
+
+  res.send({ images: imagesArr });
+});
 
 // get all products
 router.get("/", async (req, res) => {
@@ -23,37 +47,13 @@ router.post("/create", async (req, res) => {
     return res.status(400).send("Invalid Category");
   }
 
-  const limit = pLimit(2);
-
-  const imagesToUpload = req.body.images.map((image) => {
-    return limit(async () => {
-      const result = await cloudinary.uploader.upload(image);
-      // console.log(`Successfully uploaded ${image} `);
-      //console.log(`>Result: ${result.secure_url}`);
-      return result;
-    });
-  });
-
-  const uploadStatus = await Promise.all(imagesToUpload);
-
-  const imgurl = uploadStatus.map((item) => {
-    return item.secure_url;
-  });
-
-  if (!uploadStatus) {
-    return res.status(500).json({
-      error: "images cannot be uploaded",
-      status: false,
-    });
-  }
-
   let product = new Product({
     name: req.body.name,
     description: req.body.description,
-    images: imgurl,
+    images: imagesArr,
     brand: req.body.brand,
     price: req.body.price,
-    oldPrice: req.body.price,
+    oldPrice: req.body.oldPrice,
     category: req.body.category,
     countInStock: req.body.countInStock,
     rating: req.body.rating,

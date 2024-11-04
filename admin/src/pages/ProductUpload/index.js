@@ -6,8 +6,8 @@ import { Button, MenuItem } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Select } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import { useContext, useEffect, useRef, useState } from "react";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { FaCloudUploadAlt, FaRegImages } from "react-icons/fa";
 import { MyContext } from "../../App";
 import { fetchDataFromApi, postData } from "../../utils/api";
 
@@ -36,8 +36,11 @@ const ProductUpload = () => {
   const [ratingsValue, setRatingsValue] = useState(1);
   const [isFeaturedValue, setisFeaturedValue] = useState("");
   const [catData, setCatData] = useState([]);
-  const [productImagesArr, setProductImagesArr] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [imgFiles, setimgFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+
   const [formFields, setFormFields] = useState({
     name: "",
     description: "",
@@ -51,7 +54,8 @@ const ProductUpload = () => {
     isFeatured: false,
   });
   const context = useContext(MyContext);
-  const productImages = useRef(null);
+  const formdata = new FormData();
+  // const productImages = useRef(null);
 
   useEffect(() => {
     context.setProgress(20);
@@ -61,6 +65,24 @@ const ProductUpload = () => {
       context.setProgress(100);
     });
   }, [context]);
+
+  useEffect(() => {
+    if (!imgFiles) return;
+    let tmp = [];
+    for (let i = 0; i < imgFiles.length; i++) {
+      tmp.push(URL.createObjectURL(imgFiles[i]));
+    }
+
+    const objectUrls = tmp;
+    setPreviews(objectUrls);
+
+    //free memory
+    for (let i = 0; i < imgFiles.length; i++) {
+      return () => {
+        URL.revokeObjectURL(objectUrls[i]);
+      };
+    }
+  }, [imgFiles]);
 
   const handleChangeCategory = (event) => {
     setCategoryVal(event.target.value);
@@ -78,14 +100,6 @@ const ProductUpload = () => {
     }));
   };
 
-  const addProductImages = () => {
-    setProductImagesArr((prevArray) => [
-      ...prevArray,
-      productImages.current.value,
-    ]);
-    productImages.current.value = "";
-  };
-
   const inputChange = (e) => {
     setFormFields(() => ({
       ...formFields,
@@ -93,10 +107,36 @@ const ProductUpload = () => {
     }));
   };
 
+  const onChangeFile = (e, apiEndPoint) => {
+    try {
+      const imgArr = [];
+      const files = e.target.files;
+      setimgFiles(e.target.files);
+      for (var i = 0; i < files.length; i++) {
+        const file = files[i];
+        imgArr.push(file);
+        formdata.append("images", file);
+      }
+      setFiles(imgArr);
+      console.log(imgArr);
+      postData(apiEndPoint, formdata).then((res) => {});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const addProduct = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    formFields.images = productImagesArr;
+    formdata.append("name", formFields.name);
+    formdata.append("description", formFields.description);
+    formdata.append("brand", formFields.brand);
+    formdata.append("price", formFields.price);
+    formdata.append("oldPrice", formFields.oldPrice);
+    formdata.append("category", formFields.category);
+    formdata.append("countInStock", formFields.countInStock);
+    formdata.append("rating", formFields.rating);
+    formdata.append("isFeatured", formFields.isFeatured);
 
     if (formFields.name === "") {
       alert("Product Name is required");
@@ -134,10 +174,6 @@ const ProductUpload = () => {
       alert("Product isFeatured is required");
       return false;
     }
-    if (productImagesArr.length === 0) {
-      alert("Product Images is required");
-      return false;
-    }
 
     postData("/api/products/create", formFields).then((res) => {
       alert("Product Added Successfully");
@@ -156,7 +192,7 @@ const ProductUpload = () => {
         rating: 0,
         isFeatured: false,
       });
-      setProductImagesArr([]);
+      setPreviews([]);
       setCategoryVal("");
       setisFeaturedValue("");
     });
@@ -179,7 +215,7 @@ const ProductUpload = () => {
 
       <form className="form" onSubmit={addProduct}>
         <div className="row">
-          <div className="col-sm-9">
+          <div className="col-md-12">
             <div className="card p-4">
               <h5 className="mb-4">Basic Information</h5>
               <div className="form-group">
@@ -319,52 +355,45 @@ const ProductUpload = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="row">
-                <div className="col">
-                  <div className="form-group">
-                    <h6>PRODUCT IMAGES</h6>
-                    <div className="position-relative inputBtn">
-                      <input
-                        type="text"
-                        ref={productImages}
-                        style={{ paddingRight: "100px" }}
-                        name="images"
-                        onChange={inputChange}
-                      ></input>
-                      <Button className="btn-blue" onClick={addProductImages}>
-                        Add
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <br />
-              <Button type="submit" className="btn-blue btn-lg btn-big">
-                <FaCloudUploadAlt /> &nbsp;{" "}
-                {isLoading === true ? (
-                  <CircularProgress color="inherit" className="loader" />
-                ) : (
-                  "PUBLISH AND VIEW"
-                )}
-              </Button>
             </div>
           </div>
+        </div>
 
-          <div className="col-sm-3">
-            <div className="stickyBox">
-              {productImagesArr?.length !== 0 && <h4>Product Images</h4>}
-              <div className="imgGrid d-flex" id="imgGrid">
-                {productImagesArr?.map((image, index) => {
+        <div className="card p-4 mt-0">
+          <div className="imagesUpploadSec">
+            <h5 className="mb-4">Media and Published</h5>
+            <div className="imgUploadBox d-flex align-items-center">
+              {previews?.length !== 0 &&
+                previews?.map((img, index) => {
                   return (
-                    <div className="img" key={index}>
-                      <img src={image} alt="img" className="w-100" />
+                    <div className="uploadBox" key={index}>
+                      <img src={img} className="w-100" alt="img" />
                     </div>
                   );
                 })}
+              <div className="uploadBox">
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => onChangeFile(e, "/api/products/upload")}
+                  name="images"
+                />
+                <div className="info">
+                  <FaRegImages />
+                  <h5>Image Upload</h5>
+                </div>
               </div>
             </div>
+
+            <br />
+            <Button type="submit" className="btn-blue btn-lg btn-big w-100">
+              <FaCloudUploadAlt /> &nbsp;{" "}
+              {isLoading === true ? (
+                <CircularProgress color="inherit" className="loader" />
+              ) : (
+                "PUBLISH AND VIEW"
+              )}
+            </Button>
           </div>
         </div>
       </form>
