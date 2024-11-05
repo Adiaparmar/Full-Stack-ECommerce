@@ -72,11 +72,11 @@ const Category = () => {
   const context = useContext(MyContext);
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
-    window.scrollTo(0, 0);
+
     context.setProgress(20);
     fetchDataFromApi("/api/category").then((res) => {
       setCatData(res);
-      console.log(res);
+
       context.setProgress(100);
     });
   }, [context]);

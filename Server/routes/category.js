@@ -15,7 +15,7 @@ cloudinary.config({
 router.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const perPage = 5;
+    const perPage = 10;
     const totalPosts = await Category.countDocuments();
     const totalPages = Math.ceil(totalPosts / perPage);
 
