@@ -3,8 +3,8 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import { Button } from "@mui/material";
-import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState } from "react";
+import { FaCloudUploadAlt, FaRegImages } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { postData } from "../../utils/api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +38,48 @@ const AddCategory = () => {
     color: "",
   });
 
+  // eslint-disable-next-line no-unused-vars
+  const [files, setFiles] = useState([]);
+  const [imgFiles, setimgFiles] = useState();
+  const [previews, setPreviews] = useState();
+
+  const formdata = new FormData();
+  useEffect(() => {
+    if (!imgFiles) return;
+    let tmp = [];
+    for (let i = 0; i < imgFiles.length; i++) {
+      tmp.push(URL.createObjectURL(imgFiles[i]));
+    }
+
+    const objectUrls = tmp;
+    setPreviews(objectUrls);
+
+    //free memory
+    for (let i = 0; i < imgFiles.length; i++) {
+      return () => {
+        URL.revokeObjectURL(objectUrls[i]);
+      };
+    }
+  }, [imgFiles]);
+
+  const onChangeFile = (e, apiEndPoint) => {
+    try {
+      const imgArr = [];
+      const files = e.target.files;
+      setimgFiles(e.target.files);
+      for (var i = 0; i < files.length; i++) {
+        const file = files[i];
+        imgArr.push(file);
+        formdata.append("images", file);
+      }
+      setFiles(imgArr);
+      console.log(imgArr);
+      postData(apiEndPoint, formdata).then((res) => {});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const changeInput = (e) => {
     setFormFields(() => ({
       ...formFields,
@@ -46,23 +88,13 @@ const AddCategory = () => {
   };
 
   const history = useNavigate();
-  const addImgUrl = (e) => {
-    const arr = [];
-    arr.push(e.target.value);
-    setFormFields(() => ({
-      ...formFields,
-      [e.target.name]: arr,
-    }));
-  };
 
   const addCategory = (e) => {
     e.preventDefault();
+    formdata.append("name", formFields.name);
+    formdata.append("color", formFields.color);
 
-    if (
-      formFields.name !== "" &&
-      formFields.images.length !== 0 &&
-      formFields.color !== ""
-    ) {
+    if (formFields.name !== "" && formFields.color !== "") {
       setIsLoading(true);
       postData("/api/category/create", formFields).then((res) => {
         setIsLoading(false);
@@ -101,28 +133,45 @@ const AddCategory = () => {
               </div>
 
               <div className="form-group">
-                <h6>Image Url</h6>
-                <input type="text" name="images" onChange={addImgUrl} />
-              </div>
-
-              <div className="form-group">
                 <h6>Color</h6>
                 <input type="text" name="color" onChange={changeInput} />
               </div>
 
-              <br />
-              <Button type="submit" className="btn-blue btn-lg btn-big">
-                <FaCloudUploadAlt /> &nbsp;{" "}
-                {isLoading === true ? (
-                  <CircularProgress
-                    color="inherit"
-                    size={20}
-                    className=" loader"
-                  />
-                ) : (
-                  "PUBLISH & VIEW"
-                )}
-              </Button>
+              <div className="imagesUpploadSec">
+                <h5 className="mb-4">Media and Published</h5>
+                <div className="imgUploadBox d-flex align-items-center">
+                  {previews?.length !== 0 &&
+                    previews?.map((img, index) => {
+                      return (
+                        <div className="uploadBox" key={index}>
+                          <img src={img} className="w-100" alt="img" />
+                        </div>
+                      );
+                    })}
+                  <div className="uploadBox">
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) => onChangeFile(e, "/api/category/upload")}
+                      name="images"
+                    />
+                    <div className="info">
+                      <FaRegImages />
+                      <h5>Image Upload</h5>
+                    </div>
+                  </div>
+                </div>
+
+                <br />
+                <Button type="submit" className="btn-blue btn-lg btn-big w-100">
+                  <FaCloudUploadAlt /> &nbsp;{" "}
+                  {isLoading === true ? (
+                    <CircularProgress color="inherit" className="loader" />
+                  ) : (
+                    "PUBLISH AND VIEW"
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>

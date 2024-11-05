@@ -181,7 +181,7 @@ const Category = () => {
                             <div className="imgWrapper">
                               <div className="img">
                                 <img
-                                  src={item.images[0]}
+                                  src={`${context.baseUrl}uploads/${item.images[0]}`}
                                   className="w-100"
                                   alt="img"
                                 />

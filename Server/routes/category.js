@@ -1,13 +1,32 @@
 const { Category } = require("../models/category");
 const express = require("express");
 const router = express.Router();
-const cloudinary = require("cloudinary").v2;
-const pLimit = require("p-limit");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+const multer = require("multer");
+const fs = require("fs");
+
+var imagesArr = [];
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/upload", upload.array("images"), async (req, res) => {
+  imagesArr = [];
+  const files = req.files;
+
+  for (let i = 0; i < files.length; i++) {
+    imagesArr.push(files[i].filename);
+  }
+
+  res.send({ images: imagesArr });
 });
 
 // get all categories
@@ -57,33 +76,9 @@ router.get("/:id", async (req, res) => {
 // create category
 
 router.post("/create", async (req, res) => {
-  const limit = pLimit(2);
-
-  const imagesToUpload = req.body.images.map((image) => {
-    return limit(async () => {
-      const result = await cloudinary.uploader.upload(image);
-      // console.log(`Successfully uploaded ${image} `);
-      //console.log(`>Result: ${result.secure_url}`);
-      return result;
-    });
-  });
-
-  const uploadStatus = await Promise.all(imagesToUpload);
-
-  const imgurl = uploadStatus.map((item) => {
-    return item.secure_url;
-  });
-
-  if (!uploadStatus) {
-    return res.status(500).json({
-      error: "images cannot be uploaded",
-      status: false,
-    });
-  }
-
   let category = new Category({
     name: req.body.name,
-    images: imgurl,
+    images: imagesArr,
     color: req.body.color,
   });
 
@@ -100,6 +95,14 @@ router.post("/create", async (req, res) => {
 
 // delete a category
 router.delete("/:id", async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  const images = category.images;
+
+  if (images.length !== 0) {
+    for (image of images) {
+      fs.unlinkSync(`uploads/${image}`);
+    }
+  }
   const deletedCategory = await Category.findByIdAndDelete(req.params.id);
 
   if (!deletedCategory) {
@@ -116,8 +119,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const limit = pLimit(2);
-
   const imagesToUpload = req.body.images.map((image) => {
     return limit(async () => {
       const result = await cloudinary.uploader.upload(image);

@@ -3,7 +3,6 @@ const { Product } = require("../models/products");
 const express = require("express");
 const router = express.Router();
 
-const pLimit = require("p-limit");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -104,8 +103,6 @@ router.delete("/:id", async (req, res) => {
 
 //Update a Product
 router.put("/:id", async (req, res) => {
-  const limit = pLimit(2);
-
   const imagesToUpload = req.body.images.map((image) => {
     return limit(async () => {
       const result = await cloudinary.uploader.upload(image);
