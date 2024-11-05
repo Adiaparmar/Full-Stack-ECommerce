@@ -19,7 +19,7 @@ import Pagination from "@mui/material/Pagination";
 import { MyContext } from "../../App";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import { fetchDataFromApi } from "../../utils/api";
+import { deleteData, fetchDataFromApi } from "../../utils/api";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -70,6 +70,17 @@ const Dashboard = () => {
       setProductList(res);
     });
   }, [context]);
+
+  const deleteProduct = (id) => {
+    context.setProgress(40);
+    deleteData(`/api/products/${id}`).then((res) => {
+      context.setProgress(100);
+      alert("Product deleted successfully");
+    });
+    fetchDataFromApi("/api/products").then((res) => {
+      setProductList(res);
+    });
+  };
 
   //   const handleClick = (event) => {
   //     setAnchorEl(event.currentTarget);
@@ -227,7 +238,10 @@ const Dashboard = () => {
                             <Button color="success">
                               <FaPencilAlt />
                             </Button>
-                            <Button color="error">
+                            <Button
+                              color="error"
+                              onClick={() => deleteProduct(item.id)}
+                            >
                               <MdDelete />
                             </Button>
                           </div>

@@ -5,6 +5,7 @@ const router = express.Router();
 
 const pLimit = require("p-limit");
 const multer = require("multer");
+const fs = require("fs");
 
 var imagesArr = [];
 
@@ -84,6 +85,14 @@ router.get("/:id", async (req, res) => {
 
 // Delete a Product
 router.delete("/:id", async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const images = product.images;
+
+  if (images.length !== 0) {
+    for (image of images) {
+      fs.unlinkSync(`uploads/${image}`);
+    }
+  }
   const deleteProduct = await Product.findByIdAndDelete(req.params.id);
   if (!deleteProduct) {
     return res

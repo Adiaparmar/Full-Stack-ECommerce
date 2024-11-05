@@ -37,6 +37,7 @@ const ProductUpload = () => {
   const [isFeaturedValue, setisFeaturedValue] = useState("");
   const [catData, setCatData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [files, setFiles] = useState([]);
   const [imgFiles, setimgFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
