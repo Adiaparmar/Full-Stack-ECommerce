@@ -59,6 +59,7 @@ const Dashboard = () => {
   const [showBy, setshowBy] = useState("");
   const [catBy, setcatBy] = useState("");
   const [productList, setProductList] = useState([]);
+
   //   const open = Boolean(anchorEl);
 
   //   const ITEM_HEIGHT = 48;
@@ -82,12 +83,14 @@ const Dashboard = () => {
     });
   };
 
-  //   const handleClick = (event) => {
-  //     setAnchorEl(event.currentTarget);
-  //   };
-  //   const handleClose = () => {
-  //     setAnchorEl(null);
-  //   };
+  const handleChange = (event, value) => {
+    context.setProgress(40);
+    fetchDataFromApi(`/api/products?page=${value}`).then((res) => {
+      context.setProgress(100);
+      setProductList(res);
+    });
+  };
+
   return (
     <>
       <div className="right-content w-100">
@@ -185,82 +188,82 @@ const Dashboard = () => {
               </thead>
 
               <tbody>
-                {productList?.length !== 0 &&
-                  productList?.map((item, index) => {
-                    return (
-                      <tr>
-                        <td>
-                          <div className="d-flex align-items-center productBox">
-                            <div className="imgWrapper">
-                              <div className="img card shadow m-0">
-                                <img
-                                  src={`${context.baseUrl}uploads/${item.images[0]}`}
-                                  className="w-100"
-                                  alt="img"
-                                />
-                              </div>
-                            </div>
-                            <div className="info ">
-                              <h6>{item.name}</h6>
-                              <p>{item.description}</p>
+                {productList?.products?.length === 0 ? (
+                  <tr>
+                    <td colSpan="7">No products found for this page.</td>
+                  </tr>
+                ) : (
+                  productList?.products?.map((item) => (
+                    <tr key={item._id}>
+                      <td>
+                        <div className="d-flex align-items-center productBox">
+                          <div className="imgWrapper">
+                            <div className="img card shadow m-0">
+                              <img
+                                src={`${context.baseUrl}uploads/${item.images[0]}`}
+                                className="w-100"
+                                alt="img"
+                              />
                             </div>
                           </div>
-                        </td>
-                        <td>{item.category.name}</td>
-                        <td>{item.brand}</td>
-                        <td>
-                          <div style={{ width: "70px" }}>
-                            <del className="new">Rs. {item.price}</del>
-                            <span className="old text-danger">
-                              {" "}
-                              Rs.{item.oldPrice}
-                            </span>
+                          <div className="info ">
+                            <h6>{item.name}</h6>
+                            <p>{item.description}</p>
                           </div>
-                        </td>
-                        <td>{item.countInStock}</td>
-                        <td>
-                          <Rating
-                            name="read-only"
-                            defaultValue={item.rating}
-                            precision={0.5}
-                            size="small"
-                            readOnly
-                          />
-                        </td>
-
-                        <td>
-                          <div className="actions d-flex align-items-center">
-                            <Link to="/product/details">
-                              <Button color="secondary">
-                                <FaEye />
-                              </Button>
-                            </Link>
-                            <Button color="success">
-                              <FaPencilAlt />
+                        </div>
+                      </td>
+                      <td>{item.category.name}</td>
+                      <td>{item.brand}</td>
+                      <td>
+                        <div style={{ width: "70px" }}>
+                          <del className="new">Rs. {item.price}</del>
+                          <span className="old text-danger">
+                            {" "}
+                            Rs.{item.oldPrice}
+                          </span>
+                        </div>
+                      </td>
+                      <td>{item.countInStock}</td>
+                      <td>
+                        <Rating
+                          name="read-only"
+                          defaultValue={item.rating}
+                          precision={0.5}
+                          size="small"
+                          readOnly
+                        />
+                      </td>
+                      <td>
+                        <div className="actions d-flex align-items-center">
+                          <Link to="/product/details">
+                            <Button color="secondary">
+                              <FaEye />
                             </Button>
-                            <Button
-                              color="error"
-                              onClick={() => deleteProduct(item.id)}
-                            >
-                              <MdDelete />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          </Link>
+                          <Button color="success">
+                            <FaPencilAlt />
+                          </Button>
+                          <Button
+                            color="error"
+                            onClick={() => deleteProduct(item.id)}
+                          >
+                            <MdDelete />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
             <div className="d-flex tableFooter">
-              <p>
-                showing <b>12</b> of <b>60 </b>results
-              </p>
               <Pagination
-                count={10}
+                count={productList?.totalPages}
                 color="primary"
                 className="pagination"
                 showFirstButton
                 showLastButton
+                onChange={handleChange}
               />
             </div>
           </div>
