@@ -7,6 +7,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 var imagesArr = [];
+var productEditId;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -20,6 +21,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.array("images"), async (req, res) => {
+  let images;
+  if (productEditId !== undefined) {
+    const product = await Product.findById(productEditId);
+    if (product) {
+      images = product.images;
+    }
+    if (images.length !== 0) {
+      for (image of images) {
+        fs.unlinkSync(`uploads/${image}`);
+      }
+      productEditId = "";
+    }
+  }
   imagesArr = [];
   const files = req.files;
 
@@ -27,7 +41,7 @@ router.post("/upload", upload.array("images"), async (req, res) => {
     imagesArr.push(files[i].filename);
   }
 
-  res.send({ images: imagesArr });
+  res.send({ imagesArr });
 });
 
 // get all products
@@ -91,6 +105,8 @@ router.post("/create", async (req, res) => {
 
 // Get Product by id
 router.get("/:id", async (req, res) => {
+  productEditId = req.params.id;
+
   const product = await Product.findById(req.params.id);
   if (!product) {
     res
@@ -121,34 +137,12 @@ router.delete("/:id", async (req, res) => {
 
 //Update a Product
 router.put("/:id", async (req, res) => {
-  const imagesToUpload = req.body.images.map((image) => {
-    return limit(async () => {
-      const result = await cloudinary.uploader.upload(image);
-      // console.log(`Successfully uploaded ${image} `);
-      //console.log(`>Result: ${result.secure_url}`);
-      return result;
-    });
-  });
-
-  const uploadStatus = await Promise.all(imagesToUpload);
-
-  const imgurl = uploadStatus.map((item) => {
-    return item.secure_url;
-  });
-
-  if (!uploadStatus) {
-    return res.status(500).json({
-      error: "images cannot be uploaded",
-      status: false,
-    });
-  }
-
   const product = await Product.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name,
       description: req.body.description,
-      images: imgurl,
+      images: imagesArr,
       brand: req.body.brand,
       price: req.body.price,
       category: req.body.category,

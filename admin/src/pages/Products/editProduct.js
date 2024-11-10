@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { emphasize, styled } from "@mui/material/styles";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Chip from "@mui/material/Chip";
@@ -9,8 +12,8 @@ import Rating from "@mui/material/Rating";
 import { useContext, useEffect, useState } from "react";
 import { FaCloudUploadAlt, FaRegImages } from "react-icons/fa";
 import { MyContext } from "../../App";
-import { fetchDataFromApi, postData } from "../../utils/api";
-
+import { editData, fetchDataFromApi, postData } from "../../utils/api";
+import { Link, useParams } from "react-router-dom";
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
     theme.palette.mode === "light"
@@ -41,6 +44,9 @@ const ProductUpload = () => {
   const [files, setFiles] = useState([]);
   const [imgFiles, setimgFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [isSelectedFiles, setIsSelectedFiles] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [isSelectedImages, setIsSelectedImages] = useState(false);
 
   const [formFields, setFormFields] = useState({
     name: "",
@@ -55,6 +61,7 @@ const ProductUpload = () => {
     isFeatured: false,
   });
   const context = useContext(MyContext);
+  let { id } = useParams();
   const formdata = new FormData();
   // const productImages = useRef(null);
 
@@ -64,6 +71,25 @@ const ProductUpload = () => {
     fetchDataFromApi("/api/category").then((res) => {
       setCatData(res);
       context.setProgress(100);
+    });
+
+    fetchDataFromApi(`/api/products/${id}`).then((res) => {
+      setProducts(res);
+      setFormFields({
+        name: res.name,
+        description: res.description,
+        brand: res.brand,
+        price: res.price,
+        oldPrice: res.oldPrice,
+        category: res.category,
+        countInStock: res.countInStock,
+        rating: res.rating,
+        isFeatured: res.isFeatured,
+      });
+      setRatingsValue(res.rating);
+      setisFeaturedValue(res.isFeatured);
+      setCategoryVal(res.category);
+      setPreviews(res.images);
     });
   }, [context]);
 
@@ -108,25 +134,36 @@ const ProductUpload = () => {
     }));
   };
 
-  const onChangeFile = (e, apiEndPoint) => {
+  const onChangeFile = async (e, apiEndPoint) => {
     try {
       const imgArr = [];
       const files = e.target.files;
-      setimgFiles(e.target.files);
+
       for (var i = 0; i < files.length; i++) {
-        const file = files[i];
-        imgArr.push(file);
-        formdata.append("images", file);
+        if (
+          files[i] &&
+          (files[i].type === "image/jpeg" ||
+            files[i].type === "image/jpg" ||
+            files[i].type === "image/png")
+        ) {
+          setimgFiles(files);
+          const file = files[i];
+          imgArr.push(file);
+          formdata.append("images", file);
+
+          setFiles(imgArr);
+          setIsSelectedImages(true);
+          postData(apiEndPoint, formdata, id).then((res) => {});
+        } else {
+          alert("Please upload only image files");
+        }
       }
-      setFiles(imgArr);
-      console.log(imgArr);
-      postData(apiEndPoint, formdata).then((res) => {});
     } catch (err) {
       console.log(err);
     }
   };
 
-  const addProduct = (e) => {
+  const editProduct = (e) => {
     e.preventDefault();
     setIsLoading(true);
     formdata.append("name", formFields.name);
@@ -176,7 +213,7 @@ const ProductUpload = () => {
       return false;
     }
 
-    postData("/api/products/create", formFields).then((res) => {
+    editData("/api/products/create", formFields).then((res) => {
       alert("Product Added Successfully");
 
       setIsLoading(false);
@@ -201,7 +238,7 @@ const ProductUpload = () => {
   return (
     <div className="right-content w-100">
       <div className="card shadow border-0 w-100 flex-row p-4 justify-content-between">
-        <h5 className="mb-0 breadhead">Product Upload</h5>
+        <h5 className="mb-0 breadhead">Edit Product</h5>
         <Breadcrumbs aria-label="breadcrumb" className="ml-auto breadcrumbs_">
           <StyledBreadcrumb
             components="a"
@@ -210,11 +247,11 @@ const ProductUpload = () => {
             icon={<HomeIcon fontSize="small" />}
           />
           <StyledBreadcrumb label="Products" components="a" href="#" />
-          <StyledBreadcrumb label="Product Upload" />
+          <StyledBreadcrumb label="Edit Product" />
         </Breadcrumbs>
       </div>
 
-      <form className="form" onSubmit={addProduct}>
+      <form className="form" onSubmit={editProduct}>
         <div className="row">
           <div className="col-md-12">
             <div className="card p-4">
@@ -368,7 +405,14 @@ const ProductUpload = () => {
                 previews?.map((img, index) => {
                   return (
                     <div className="uploadBox" key={index}>
-                      <img src={img} className="w-100" alt="img" />
+                      {isSelectedImages === true ? (
+                        <img src={`${img}`} className="w-100 " />
+                      ) : (
+                        <img
+                          src={`${context.baseUrl}uploads/${img}`}
+                          className="w-100"
+                        />
+                      )}
                     </div>
                   );
                 })}

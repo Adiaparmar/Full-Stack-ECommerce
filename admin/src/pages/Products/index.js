@@ -240,9 +240,11 @@ const Dashboard = () => {
                               <FaEye />
                             </Button>
                           </Link>
-                          <Button color="success">
-                            <FaPencilAlt />
-                          </Button>
+                          <Link to={`/product/edit/${item.id}`}>
+                            <Button color="success">
+                              <FaPencilAlt />
+                            </Button>
+                          </Link>
                           <Button
                             color="error"
                             onClick={() => deleteProduct(item.id)}

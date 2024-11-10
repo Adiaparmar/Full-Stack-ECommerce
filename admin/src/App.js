@@ -9,7 +9,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Product from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
-import ProductUpload from "./pages/ProductUpload";
+import ProductUpload from "./pages/Products/addProduct";
+import EditProduct from "./pages/Products/editProduct";
 import CategoryAdd from "./pages/Category/addCategory";
 import EditCategory from "./pages/Category/editCategory";
 import Category from "./pages/Category";
@@ -97,6 +98,11 @@ function App() {
                 path="/product/upload"
                 exact={true}
                 element={<ProductUpload />}
+              />
+              <Route
+                path="/product/edit/:id"
+                exact={true}
+                element={<EditProduct />}
               />
             </Routes>
           </div>
