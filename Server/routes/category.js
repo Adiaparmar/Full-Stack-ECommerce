@@ -6,7 +6,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 var imagesArr = [];
-
+var categoryEditId;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads");
@@ -19,14 +19,23 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.array("images"), async (req, res) => {
+  if (categoryEditId !== undefined) {
+    const category = await Category.findById(categoryEditId);
+    const images = category.images;
+
+    if (images.length !== 0) {
+      for (image of images) {
+        fs.unlinkSync(`uploads/${image}`);
+      }
+    }
+  }
   imagesArr = [];
   const files = req.files;
 
   for (let i = 0; i < files.length; i++) {
     imagesArr.push(files[i].filename);
   }
-
-  res.send({ images: imagesArr });
+  res.send(imagesArr);
 });
 
 // get all categories
@@ -64,6 +73,7 @@ router.get("/", async (req, res) => {
 // get category by id
 
 router.get("/:id", async (req, res) => {
+  categoryEditId = req.params.id;
   const category = await Category.findById(req.params.id);
   if (!category) {
     res
@@ -118,34 +128,12 @@ router.delete("/:id", async (req, res) => {
   });
 });
 
-router.put("/:id", async (req, res) => {
-  const imagesToUpload = req.body.images.map((image) => {
-    return limit(async () => {
-      const result = await cloudinary.uploader.upload(image);
-      //console.log(`Successfully uploaded ${image} `);
-      //console.log(`>Result: ${result.secure_url}`);
-      return result;
-    });
-  });
-
-  const uploadStatus = await Promise.all(imagesToUpload);
-
-  const imgurl = uploadStatus.map((item) => {
-    return item.secure_url;
-  });
-
-  if (!uploadStatus) {
-    return res.status(500).json({
-      error: "images cannot be uploaded",
-      status: false,
-    });
-  }
-
+router.put("/:id", upload.array("images"), async (req, res) => {
   const category = await Category.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name,
-      images: imgurl,
+      images: imagesArr,
       color: req.body.color,
     },
     { new: true }
