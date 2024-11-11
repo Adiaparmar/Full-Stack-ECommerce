@@ -34,6 +34,7 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 const ProductUpload = () => {
   const [categoryVal, setCategoryVal] = useState("");
+  const [subCatVal, setSubCatVal] = useState("");
   const [ratingsValue, setRatingsValue] = useState(1);
   const [isFeaturedValue, setisFeaturedValue] = useState("");
   const [catData, setCatData] = useState([]);
@@ -46,6 +47,7 @@ const ProductUpload = () => {
 
   const [formFields, setFormFields] = useState({
     name: "",
+    subCat: "",
     description: "",
     images: [],
     brand: "",
@@ -92,6 +94,13 @@ const ProductUpload = () => {
     setFormFields((e) => ({
       ...formFields,
       category: event.target.value,
+    }));
+  };
+  const handleChangeSubCategory = (event) => {
+    setSubCatVal(event.target.value);
+    setFormFields((e) => ({
+      ...formFields,
+      subCat: event.target.value,
     }));
   };
 
@@ -143,6 +152,7 @@ const ProductUpload = () => {
     e.preventDefault();
     setIsLoading(true);
     formdata.append("name", formFields.name);
+    formdata.append("subCat", formFields.subCat);
     formdata.append("description", formFields.description);
     formdata.append("brand", formFields.brand);
     formdata.append("price", formFields.price);
@@ -156,6 +166,7 @@ const ProductUpload = () => {
       alert("Product Name is required");
       return false;
     }
+
     if (formFields.description === "") {
       alert("Product Description is required");
       return false;
@@ -174,6 +185,10 @@ const ProductUpload = () => {
     }
     if (formFields.category === "") {
       alert("Product Category is required");
+      return false;
+    }
+    if (formFields.subCat === "") {
+      alert("Product subCat is required");
       return false;
     }
     if (formFields.countInStock !== 0 && formFields.countInStock === "") {
@@ -202,6 +217,7 @@ const ProductUpload = () => {
         price: 0,
         oldPrice: 0,
         category: "",
+        subCat: "",
         countInStock: 0,
         rating: 0,
         isFeatured: false,
@@ -281,13 +297,26 @@ const ProductUpload = () => {
 
                 <div className="col">
                   <div className="form-group">
-                    <h6>BRAND</h6>
-                    <input
-                      type="text"
-                      name="brand"
-                      value={formFields.brand}
-                      onChange={inputChange}
-                    />
+                    <h6>SUB CATEGORY</h6>
+                    <Select
+                      value={subCatVal}
+                      onChange={handleChangeSubCategory}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Without label" }}
+                      className="w-100"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {catData?.categoryList?.length !== 0 &&
+                        catData?.categoryList?.map((cat, index) => {
+                          return (
+                            <MenuItem key={index} value={cat.id}>
+                              {cat.subCat}
+                            </MenuItem>
+                          );
+                        })}
+                    </Select>
                   </div>
                 </div>
               </div>
@@ -365,6 +394,18 @@ const ProductUpload = () => {
                           rating: newValue,
                         }));
                       }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="form-group">
+                    <h6>BRAND</h6>
+                    <input
+                      type="text"
+                      name="brand"
+                      value={formFields.brand}
+                      onChange={inputChange}
                     />
                   </div>
                 </div>

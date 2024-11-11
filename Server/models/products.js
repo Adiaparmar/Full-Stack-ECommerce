@@ -32,6 +32,11 @@ const productSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  subCat: {
+    type: String,
+    ref: "Category",
+    required: true,
+  },
   countInStock: {
     type: Number,
     required: true,

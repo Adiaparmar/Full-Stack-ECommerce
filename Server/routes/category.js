@@ -19,16 +19,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.array("images"), async (req, res) => {
-  if (categoryEditId !== undefined) {
-    const category = await Category.findById(categoryEditId);
-    const images = category.images;
+  // if (categoryEditId !== undefined) {
+  //   const category = await Category.findById(categoryEditId);
+  //   const images = category.images;
 
-    if (images.length !== 0) {
-      for (image of images) {
-        fs.unlinkSync(`uploads/${image}`);
-      }
-    }
-  }
+  //   if (images.length !== 0) {
+  //     for (image of images) {
+  //       fs.unlinkSync(`uploads/${image}`);
+  //     }
+  //   }
+  // }
   imagesArr = [];
   const files = req.files;
 
@@ -88,6 +88,7 @@ router.get("/:id", async (req, res) => {
 router.post("/create", async (req, res) => {
   let category = new Category({
     name: req.body.name,
+    subCat: req.body.subCat,
     images: imagesArr,
     color: req.body.color,
   });
@@ -133,6 +134,7 @@ router.put("/:id", upload.array("images"), async (req, res) => {
     req.params.id,
     {
       name: req.body.name,
+      subCat: req.body.subCat,
       images: imagesArr,
       color: req.body.color,
     },

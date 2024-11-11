@@ -21,19 +21,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.array("images"), async (req, res) => {
-  let images;
-  if (productEditId !== undefined) {
-    const product = await Product.findById(productEditId);
-    if (product) {
-      images = product.images;
-    }
-    if (images.length !== 0) {
-      for (image of images) {
-        fs.unlinkSync(`uploads/${image}`);
-      }
-      productEditId = "";
-    }
-  }
   imagesArr = [];
   const files = req.files;
 
@@ -87,6 +74,7 @@ router.post("/create", async (req, res) => {
     price: req.body.price,
     oldPrice: req.body.oldPrice,
     category: req.body.category,
+    subCat: req.body.subCat,
     countInStock: req.body.countInStock,
     rating: req.body.rating,
     isFeatured: req.body.isFeatured,
@@ -146,6 +134,7 @@ router.put("/:id", async (req, res) => {
       brand: req.body.brand,
       price: req.body.price,
       category: req.body.category,
+      // subCat: req.body.subCat,
       countInStock: req.body.countInStock,
       rating: req.body.rating,
       numReviews: req.body.numReviews,

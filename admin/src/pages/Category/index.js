@@ -34,15 +34,6 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 const Category = () => {
   const [catData, setCatData] = useState([]);
-  const [open, setOpen] = useState(false);
-
-  const [editId, setEditId] = useState(null);
-
-  const [formFields, setFormFields] = useState({
-    name: "",
-    images: [],
-    color: "",
-  });
 
   const context = useContext(MyContext);
   useEffect(() => {
@@ -55,24 +46,6 @@ const Category = () => {
       context.setProgress(100);
     });
   }, [context]);
-
-  const editCategory = (id) => {
-    setFormFields({
-      name: "",
-      images: "",
-      color: "",
-    });
-    setOpen(true);
-    setEditId(id);
-    fetchDataFromApi(`/api/category/${id}`).then((res) => {
-      setFormFields({
-        name: res.name,
-        images: res.images,
-        color: res.color,
-      });
-      console.log(res);
-    });
-  };
 
   const deleteCat = (id) => {
     deleteData(`/api/category/${id}`).then((res) => {
@@ -126,6 +99,7 @@ const Category = () => {
                 <tr>
                   <th style={{ textAlign: "center" }}>UID</th>
                   <th style={{ textAlign: "center" }}>CATEGORY</th>
+                  <th style={{ textAlign: "center " }}>SUB CATEGORY</th>
                   <th style={{ width: "100px", textAlign: "center" }}>IMAGE</th>
                   <th style={{ textAlign: "center" }}>COLOR</th>
                   <th style={{ textAlign: "center" }}>ACTIONS</th>
@@ -139,6 +113,7 @@ const Category = () => {
                       <tr>
                         <td>#{index + 1}</td>
                         <td>{item.name}</td>
+                        <td>{item.subCat}</td>
                         <td>
                           <div className="d-flex align-items-center productBox">
                             <div className="imgWrapper">

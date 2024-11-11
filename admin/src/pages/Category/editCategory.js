@@ -77,6 +77,7 @@ const EditCategory = () => {
       setCategory(res);
       setFormFields({
         name: res.name,
+        subCat: res.subCat,
         color: res.color,
       });
       setPreviews(res.images);
@@ -151,6 +152,7 @@ const EditCategory = () => {
   const editCategory = (e) => {
     e.preventDefault();
     formdata.append("name", formFields.name);
+    formdata.append("subCat", formFields.subCat);
     formdata.append("color", formFields.color);
 
     if (files.length > 0) {
@@ -199,6 +201,16 @@ const EditCategory = () => {
                   type="text"
                   name="name"
                   value={formFields.name}
+                  onChange={changeInput}
+                />
+              </div>
+
+              <div className="form-group">
+                <h6>Sub Category Name</h6>
+                <input
+                  type="text"
+                  name="subCat"
+                  value={formFields.subCat}
                   onChange={changeInput}
                 />
               </div>

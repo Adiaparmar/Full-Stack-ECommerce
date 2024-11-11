@@ -178,6 +178,7 @@ const Dashboard = () => {
                 <tr>
                   <th style={{ textAlign: "center" }}>PRODUT</th>
                   <th style={{ textAlign: "center" }}>CATEGORY</th>
+                  <th style={{ textAlign: "center" }}>SUB CATEGORY</th>
                   <th style={{ textAlign: "center" }}>BRAND</th>
                   <th style={{ textAlign: "center" }}>PRICE</th>
                   <th style={{ textAlign: "center" }}>STOCK</th>
@@ -213,6 +214,7 @@ const Dashboard = () => {
                         </div>
                       </td>
                       <td>{item.category.name}</td>
+                      <td>{item.category.subCat}</td>
                       <td>{item.brand}</td>
                       <td>
                         <div style={{ width: "70px" }}>

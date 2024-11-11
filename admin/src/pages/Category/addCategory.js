@@ -36,6 +36,7 @@ const AddCategory = () => {
   const [error, setError] = useState(false);
   const [formFields, setFormFields] = useState({
     name: "",
+    subCat: "",
     images: [],
     color: "",
   });
@@ -108,10 +109,12 @@ const AddCategory = () => {
   const addCategory = (e) => {
     e.preventDefault();
     formdata.append("name", formFields.name);
+    formdata.append("subCat", formFields.subCat);
     formdata.append("color", formFields.color);
 
     if (
       formFields.name !== "" &&
+      formFields.subCat !== "" &&
       formFields.color !== "" &&
       isSelectedFiles !== false
     ) {
@@ -149,12 +152,32 @@ const AddCategory = () => {
               )}
               <div className="form-group">
                 <h6>Category Name</h6>
-                <input type="text" name="name" onChange={changeInput} />
+                <input
+                  type="text"
+                  name="name"
+                  value={formFields.name}
+                  onChange={changeInput}
+                />
+              </div>
+
+              <div className="form-group">
+                <h6>Sub Category Name</h6>
+                <input
+                  type="text"
+                  name="subCat"
+                  value={formFields.subCat}
+                  onChange={changeInput}
+                />
               </div>
 
               <div className="form-group">
                 <h6>Color</h6>
-                <input type="text" name="color" onChange={changeInput} />
+                <input
+                  type="text"
+                  name="color"
+                  value={formFields.color}
+                  onChange={changeInput}
+                />
               </div>
 
               <div className="imagesUpploadSec">
