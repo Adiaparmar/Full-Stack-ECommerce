@@ -5,10 +5,11 @@ import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import { Button } from "@mui/material";
 import { FaCloudUploadAlt, FaRegImages } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { postData } from "../../utils/api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import { MyContext } from "../../App";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -45,7 +46,7 @@ const AddCategory = () => {
   const [files, setFiles] = useState([]);
   const [imgFiles, setimgFiles] = useState();
   const [previews, setPreviews] = useState();
-
+  const context = useContext(MyContext);
   const formdata = new FormData();
   useEffect(() => {
     if (!imgFiles) return;
@@ -123,6 +124,7 @@ const AddCategory = () => {
         setIsLoading(false);
         history("/categories");
       });
+      context.fetchCategory();
     } else {
       setError(true);
     }

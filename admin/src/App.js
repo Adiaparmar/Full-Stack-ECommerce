@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -14,12 +15,15 @@ import EditProduct from "./pages/Products/editProduct";
 import CategoryAdd from "./pages/Category/addCategory";
 import EditCategory from "./pages/Category/editCategory";
 import Category from "./pages/Category";
+import { fetchDataFromApi } from "./utils/api";
+import SubCatAdd from "./pages/Category/addSubCat";
 
 const MyContext = createContext();
 
 function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [catData, setCatData] = useState([]);
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
   const [baseUrl, setBaseUrl] = useState("http://localhost:4000/");
@@ -37,6 +41,18 @@ function App() {
     }
   }, [themeMode]);
 
+  useEffect(() => {
+    setProgress(20);
+    fetchCategory();
+  }, [catData]);
+
+  const fetchCategory = async () => {
+    fetchDataFromApi("/api/category").then((res) => {
+      setCatData(res);
+      setProgress(100);
+    });
+  };
+
   const values = {
     isToggleSidebar,
     setIsToggleSidebar,
@@ -50,6 +66,8 @@ function App() {
     setProgress,
     baseUrl,
     setBaseUrl,
+    catData,
+    fetchCategory,
   };
 
   return (
@@ -84,11 +102,17 @@ function App() {
                 element={<CategoryAdd />}
               />
               <Route
+                path="/subCategory/add"
+                exact={true}
+                element={<SubCatAdd />}
+              />
+              <Route
                 path="/category/edit/:id"
                 exact={true}
                 element={<EditCategory />}
               />
               <Route path="/categories" exact={true} element={<Category />} />
+
               <Route
                 path="/product/details"
                 exact={true}

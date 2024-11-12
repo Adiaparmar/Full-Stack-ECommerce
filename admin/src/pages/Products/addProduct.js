@@ -63,12 +63,7 @@ const ProductUpload = () => {
   // const productImages = useRef(null);
 
   useEffect(() => {
-    context.setProgress(20);
-
-    fetchDataFromApi("/api/category").then((res) => {
-      setCatData(res);
-      context.setProgress(100);
-    });
+    setCatData(context.catData);
   }, [context]);
 
   useEffect(() => {

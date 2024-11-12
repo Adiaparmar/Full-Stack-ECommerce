@@ -13,10 +13,12 @@ app.use(bodyParser.json());
 
 //Routes
 const categoryRoutes = require("./routes/category");
+const subCatSchema = require("./routes/subCat");
 const productRoutes = require("./routes/products");
 
 app.use("/uploads", express.static("uploads"));
 app.use(`/api/category`, categoryRoutes);
+app.use(`/api/subCat`, subCatSchema);
 app.use(`/api/products`, productRoutes);
 
 //database

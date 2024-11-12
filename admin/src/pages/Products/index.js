@@ -58,6 +58,7 @@ const Dashboard = () => {
   //   const [anchorEl, setAnchorEl] = useState(null);
   const [showBy, setshowBy] = useState("");
   const [catBy, setcatBy] = useState("");
+
   const [productList, setProductList] = useState([]);
 
   //   const open = Boolean(anchorEl);
@@ -162,11 +163,16 @@ const Dashboard = () => {
                   className="w-100"
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em value={null}>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {context.catData?.categoryList?.length !== 0 &&
+                    context.catData?.categoryList?.map((cat, index) => {
+                      return (
+                        <MenuItem key={index} value={cat.id}>
+                          {cat.name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </FormControl>
             </div>
