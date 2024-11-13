@@ -258,6 +258,12 @@ const Sidebar = () => {
                 <li>
                   <Link to="/category/add">Add Category</Link>
                 </li>
+                <li>
+                  <Link to="/subCategory">Sub Category List</Link>
+                </li>
+                <li>
+                  <Link to="/subCategory/add">Add a Sub Category</Link>
+                </li>
               </ul>
             </div>
           </li>

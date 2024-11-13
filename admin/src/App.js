@@ -14,9 +14,11 @@ import ProductUpload from "./pages/Products/addProduct";
 import EditProduct from "./pages/Products/editProduct";
 import CategoryAdd from "./pages/Category/addCategory";
 import EditCategory from "./pages/Category/editCategory";
-import Category from "./pages/Category";
+import EditSubCategory from "./pages/Category/editSubCat.js";
+import Category from "./pages/Category/categoryList.js";
 import { fetchDataFromApi } from "./utils/api";
 import SubCatAdd from "./pages/Category/addSubCat";
+import SubCatList from "./pages/Category/subCategoryList";
 
 const MyContext = createContext();
 
@@ -24,6 +26,7 @@ function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [catData, setCatData] = useState([]);
+  const [subCatData, setSubCatData] = useState([]);
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
   const [baseUrl, setBaseUrl] = useState("http://localhost:4000/");
@@ -44,11 +47,19 @@ function App() {
   useEffect(() => {
     setProgress(20);
     fetchCategory();
+    fetchSubCategory();
   }, [catData]);
 
   const fetchCategory = async () => {
     fetchDataFromApi("/api/category").then((res) => {
       setCatData(res);
+      setProgress(100);
+    });
+  };
+
+  const fetchSubCategory = async () => {
+    fetchDataFromApi("/api/subCat").then((res) => {
+      setSubCatData(res);
       setProgress(100);
     });
   };
@@ -68,6 +79,8 @@ function App() {
     setBaseUrl,
     catData,
     fetchCategory,
+    subCatData,
+    fetchSubCategory,
   };
 
   return (
@@ -107,9 +120,19 @@ function App() {
                 element={<SubCatAdd />}
               />
               <Route
+                path="/subCategory/"
+                exact={true}
+                element={<SubCatList />}
+              />
+              <Route
                 path="/category/edit/:id"
                 exact={true}
                 element={<EditCategory />}
+              />
+              <Route
+                path="/subCategory/edit/:id"
+                exact={true}
+                element={<EditSubCategory />}
               />
               <Route path="/categories" exact={true} element={<Category />} />
 

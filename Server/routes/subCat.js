@@ -4,13 +4,31 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const subCat = await SubCategory.find().populate("category");
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
+    const totalPosts = await SubCategory.countDocuments();
+    const totalPages = Math.ceil(totalPosts / perPage);
 
-    if (!subCat) {
+    if (page > totalPages) {
+      return res.status(404).json({ message: "Page not found" });
+    }
+
+    const subCategoryList = await SubCategory.find()
+      .populate("category")
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    if (!subCategoryList) {
       res.status(500).json({ success: false });
     }
-    return res.status(200).json(subCat);
-  } catch (err) {
+
+    return res.status(200).json({
+      subCategoryList: subCategoryList,
+      totalPages: totalPages,
+      page: page,
+    });
+  } catch (error) {
     res.status(500).json({ success: false });
   }
 });
@@ -61,7 +79,6 @@ router.delete("/:id", async (req, res) => {
   });
 });
 
-//update sub category
 router.put("/:id", async (req, res) => {
   const subCat = await SubCategory.findByIdAndUpdate(
     req.params.id,

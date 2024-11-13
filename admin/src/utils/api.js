@@ -30,26 +30,21 @@ export const postData = async (url, formData) => {
 //   }
 // };
 
-// export const editData = async (url, updatedData) => {
-//   const { res } = await axios.put(`http://localhost:4000${url}`, updatedData);
-//   return res;
-// };
-
 export const editData = async (url, updatedData) => {
   try {
-    const { res } = await axios.put(
+    const response = await axios.put(
       `http://localhost:4000${url}`,
       updatedData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       }
     );
-    return res;
+    return response.data;
   } catch (error) {
-    console.log(error);
-    return error;
+    console.error("Error updating data:", error);
+    return error.response?.data || error.message;
   }
 };
 

@@ -93,7 +93,7 @@ function AddSubCat() {
 
     postData("/api/subCat/create", formFields).then((res) => {
       setIsLoading(false);
-      history("/categories");
+      history("/subCategory");
     });
   };
 

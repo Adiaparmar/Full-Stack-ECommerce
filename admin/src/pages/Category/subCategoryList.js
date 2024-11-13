@@ -32,32 +32,32 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   };
 });
 
-const Category = () => {
-  const [catData, setCatData] = useState([]);
+const SubCategory = () => {
+  const [subCatData, setSubCatData] = useState([]);
 
   const context = useContext(MyContext);
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
 
     context.setProgress(20);
-    fetchDataFromApi("/api/category").then((res) => {
-      setCatData(res);
+    fetchDataFromApi("/api/subCat").then((res) => {
+      setSubCatData(res);
 
       context.setProgress(100);
     });
   }, [context]);
 
-  const deleteCat = (id) => {
-    deleteData(`/api/category/${id}`).then((res) => {
-      fetchDataFromApi("/api/category/").then((res) => {
-        setCatData(res);
+  const deleteSubCat = (id) => {
+    deleteData(`/api/subCat/${id}`).then((res) => {
+      fetchDataFromApi("/api/subCat/").then((res) => {
+        setSubCatData(res);
       });
     });
   };
 
   const handleChange = (event, value) => {
-    fetchDataFromApi(`/api/category?pages=${value}`).then((res) => {
-      setCatData(res);
+    fetchDataFromApi(`/api/subCat?pages=${value}`).then((res) => {
+      setSubCatData(res);
     });
   };
 
@@ -66,7 +66,7 @@ const Category = () => {
       <div className="right-content w-100">
         <div className="card shadow border-0 w-100 flex-row p-4 justify-content-between">
           <div className="d-flex align-items-center">
-            <h5 className="mb-0 breadhead">Category List</h5>
+            <h5 className="mb-0 breadhead">Sub Category List</h5>
           </div>
 
           <div className="ml-auto d-flex align-items-center">
@@ -80,46 +80,46 @@ const Category = () => {
                 label="Dashboard"
                 icon={<HomeIcon fontSize="small" />}
               />
-              <StyledBreadcrumb label="Category" components="a" href="#" />
-              <StyledBreadcrumb label="Category List" />
+              <StyledBreadcrumb label="Sub Category" components="a" href="#" />
+              <StyledBreadcrumb label="Sub Category List" />
             </Breadcrumbs>
             &nbsp;&nbsp;&nbsp;
-            <Link to="/category/add">
-              <Button className="btn-blue mr-3 pl-3 pr-3">Add Category</Button>
+            <Link to="/subCat/add">
+              <Button className="btn-blue mr-3 pl-3 pr-3">
+                Add Sub Category
+              </Button>
             </Link>
           </div>
         </div>
 
         <div className="card shadow border-0 p-3 mt-4">
-          <h3 className="hd">Categories</h3>
+          <h3 className="hd">Sub Categories</h3>
 
           <div className="table-responsive mt-3">
             <table className="table table-border v-align">
               <thead className="thead-dark">
                 <tr>
                   <th style={{ textAlign: "center" }}>UID</th>
+                  <th style={{ textAlign: "center" }}>IMAGE</th>
                   <th style={{ textAlign: "center" }}>CATEGORY</th>
-                  <th style={{ textAlign: "center " }}>SUB CATEGORY</th>
-                  <th style={{ width: "100px", textAlign: "center" }}>IMAGE</th>
-                  <th style={{ textAlign: "center" }}>COLOR</th>
+                  <th style={{ textAlign: "center" }}>SUB CATEGORY</th>
                   <th style={{ textAlign: "center" }}>ACTIONS</th>
                 </tr>
               </thead>
 
               <tbody>
-                {catData?.categoryListt?.length !== 0 &&
-                  catData?.categoryList?.map((item, index) => {
+                {subCatData?.subCategoryList?.length !== 0 &&
+                  subCatData?.subCategoryList?.map((item, index) => {
                     return (
                       <tr>
                         <td>#{index + 1}</td>
-                        <td>{item.name}</td>
-                        <td>{item.subCat}</td>
+
                         <td>
                           <div className="d-flex align-items-center productBox">
                             <div className="imgWrapper">
                               <div className="img">
                                 <img
-                                  src={`${context.baseUrl}uploads/${item.images[0]}`}
+                                  src={`${context.baseUrl}uploads/${item.category.images[0]}`}
                                   className="w-100"
                                   alt="img"
                                 />
@@ -127,23 +127,19 @@ const Category = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="dotdiv">
-                          <span
-                            className="dot"
-                            style={{ background: item.color }}
-                          ></span>
-                        </td>
+                        <td>{item.category.name}</td>
+                        <td>{item.subCat}</td>
 
                         <td>
                           <div className="actions d-flex align-items-center">
-                            <Link to={`/category/edit/${item.id}`}>
+                            <Link to={`/subCategory/edit/${item.id}`}>
                               <Button color="success">
                                 <FaPencilAlt />
                               </Button>
                             </Link>
                             <Button
                               color="error"
-                              onClick={() => deleteCat(item.id)}
+                              onClick={() => deleteSubCat(item.id)}
                             >
                               <MdDelete />
                             </Button>
@@ -156,7 +152,7 @@ const Category = () => {
             </table>
             <div className="d-flex tableFooter">
               <Pagination
-                count={catData?.totalPages}
+                count={subCatData?.totalPages}
                 color="primary"
                 className="pagination"
                 showFirstButton
@@ -171,4 +167,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default SubCategory;

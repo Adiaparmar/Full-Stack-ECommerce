@@ -38,6 +38,7 @@ const ProductUpload = () => {
   const [ratingsValue, setRatingsValue] = useState(1);
   const [isFeaturedValue, setisFeaturedValue] = useState("");
   const [catData, setCatData] = useState([]);
+  const [subCatData, setSubCatData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [files, setFiles] = useState([]);
@@ -64,6 +65,7 @@ const ProductUpload = () => {
 
   useEffect(() => {
     setCatData(context.catData);
+    setSubCatData(context.subCatData);
   }, [context]);
 
   useEffect(() => {
@@ -303,14 +305,14 @@ const ProductUpload = () => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {catData?.categoryList?.length !== 0 &&
-                        catData?.categoryList?.map((cat, index) => {
-                          return (
-                            <MenuItem key={index} value={cat.id}>
-                              {cat.subCat}
+                      {context.subCatData?.subCategoryList?.length > 0 &&
+                        context.subCatData.subCategoryList.map(
+                          (subCat, index) => (
+                            <MenuItem key={subCat.id} value={subCat.subCat}>
+                              {subCat.subCat}
                             </MenuItem>
-                          );
-                        })}
+                          )
+                        )}
                     </Select>
                   </div>
                 </div>
