@@ -39,7 +39,6 @@ const Dashboard = () => {
   const context = useContext(MyContext);
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
-    window.scrollTo(0, 0);
     fetchDataFromApi("/api/products").then((res) => {
       setProductList(res);
     });
@@ -185,11 +184,16 @@ const Dashboard = () => {
                   className="w-100"
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em value={null}>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {context.catData?.categoryList?.length !== 0 &&
+                    context.catData?.categoryList?.map((cat, index) => {
+                      return (
+                        <MenuItem key={index} value={cat.id}>
+                          {cat.name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </FormControl>
             </div>
@@ -201,6 +205,7 @@ const Dashboard = () => {
                 <tr>
                   <th style={{ textAlign: "center" }}>PRODUT</th>
                   <th style={{ textAlign: "center" }}>CATEGORY</th>
+                  <th style={{ textAlign: "center" }}>SUB CATEGORY</th>
                   <th style={{ textAlign: "center" }}>BRAND</th>
                   <th style={{ textAlign: "center" }}>PRICE</th>
                   <th style={{ textAlign: "center" }}>STOCK</th>
@@ -236,6 +241,7 @@ const Dashboard = () => {
                         </div>
                       </td>
                       <td>{item.category.name}</td>
+                      <td>{item.subCat}</td>
                       <td>{item.brand}</td>
                       <td>
                         <div style={{ width: "70px" }}>
@@ -263,9 +269,11 @@ const Dashboard = () => {
                               <FaEye />
                             </Button>
                           </Link>
-                          <Button color="success">
-                            <FaPencilAlt />
-                          </Button>
+                          <Link to={`/product/edit/${item.id}`}>
+                            <Button color="success">
+                              <FaPencilAlt />
+                            </Button>
+                          </Link>
                           <Button
                             color="error"
                             onClick={() => deleteProduct(item.id)}

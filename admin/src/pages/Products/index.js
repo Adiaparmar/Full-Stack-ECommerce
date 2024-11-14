@@ -67,7 +67,7 @@ const Dashboard = () => {
   const context = useContext(MyContext);
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
-    window.scrollTo(0, 0);
+
     fetchDataFromApi("/api/products").then((res) => {
       setProductList(res);
     });
