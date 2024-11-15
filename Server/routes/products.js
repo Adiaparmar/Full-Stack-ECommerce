@@ -59,6 +59,16 @@ router.get("/", async (req, res) => {
   });
 });
 
+//featured Product
+router.get("/featured", async (req, res) => {
+  const productList = await Product.find({ isFeatured: true });
+  if (!productList) {
+    res.status(500).json({ success: true });
+  }
+
+  return res.status(200).json(productList);
+});
+
 // create a product
 router.post("/create", async (req, res) => {
   const category = await Category.findById(req.body.category);
