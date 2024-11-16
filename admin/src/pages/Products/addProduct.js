@@ -158,6 +158,7 @@ const ProductUpload = () => {
     formdata.append("countInStock", formFields.countInStock);
     formdata.append("rating", formFields.rating);
     formdata.append("isFeatured", formFields.isFeatured);
+    formdata.append("discount", formFields.discount);
 
     if (formFields.name === "") {
       alert("Product Name is required");
@@ -200,6 +201,10 @@ const ProductUpload = () => {
       alert("Product isFeatured is required");
       return false;
     }
+    if (formFields.discount === "") {
+      alert("Product discount is required");
+      return false;
+    }
 
     postData("/api/products/create", formFields).then((res) => {
       alert("Product Added Successfully");
@@ -218,6 +223,7 @@ const ProductUpload = () => {
         countInStock: 0,
         rating: 0,
         isFeatured: false,
+        discount: 0,
       });
       setPreviews([]);
       setCategoryVal("");
@@ -405,6 +411,18 @@ const ProductUpload = () => {
                       onChange={inputChange}
                     />
                   </div>
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <h6>DISCOUNT</h6>
+                  <input
+                    type="text"
+                    name="discount"
+                    value={formFields.discount}
+                    onChange={inputChange}
+                  />
                 </div>
               </div>
             </div>

@@ -189,6 +189,7 @@ const Dashboard = () => {
                   <th style={{ textAlign: "center" }}>PRICE</th>
                   <th style={{ textAlign: "center" }}>STOCK</th>
                   <th style={{ textAlign: "center" }}>RATING</th>
+                  <th style={{ textAlign: "center" }}>DISCOUNT</th>
 
                   <th>ACTION</th>
                 </tr>
@@ -241,6 +242,7 @@ const Dashboard = () => {
                           readOnly
                         />
                       </td>
+                      <td>{item.discount}</td>
                       <td>
                         <div className="actions d-flex align-items-center">
                           <Link to="/product/details">

@@ -49,6 +49,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  discount: {
+    type: Number,
+    required: true,
+  },
   dateCreated: {
     type: Date,
     default: Date.now,
