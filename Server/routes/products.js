@@ -42,15 +42,28 @@ router.get("/", async (req, res) => {
     return res.status(404).json({ message: "Page not found" });
   }
 
-  const productList = await Product.find()
-    .populate("category")
-    .skip((page - 1) * perPage)
-    .limit(perPage)
-    .exec();
+  let productList = [];
+  if (req.query.catName !== undefined) {
+    productList = await Product.find({ catName: req.query.catName }).populate(
+      "category"
+    );
 
-  if (!productList) {
-    res.status(500).json({ success: false });
+    if (!productList) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+  } else {
+    productList = await Product.find()
+      .populate("category")
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
   }
+
+  // if (!productList) {
+  //   res.status(500).json({ success: false });
+  // }
 
   return res.status(200).json({
     products: productList,

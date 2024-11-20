@@ -79,6 +79,7 @@ const ProductUpload = () => {
         brand: res.brand,
         price: res.price,
         oldPrice: res.oldPrice,
+        catName: res.catName,
         category: res.category,
         subCat: res.subCat,
         countInStock: res.countInStock,
@@ -142,6 +143,10 @@ const ProductUpload = () => {
     }));
   };
 
+  const selectCat = (cat) => {
+    formFields.catName = cat;
+  };
+
   const onChangeFile = async (e, apiEndPoint) => {
     try {
       const imgArr = [];
@@ -179,6 +184,7 @@ const ProductUpload = () => {
     formdata.append("brand", formFields.brand);
     formdata.append("price", formFields.price);
     formdata.append("oldPrice", formFields.oldPrice);
+    formdata.append("catName", formFields.catName);
     formdata.append("category", formFields.category);
     formdata.append("subCat", formFields.subCat);
     formdata.append("countInStock", formFields.countInStock);
@@ -243,6 +249,7 @@ const ProductUpload = () => {
         brand: "",
         price: 0,
         oldPrice: 0,
+        catName: "",
         category: "",
         subCat: "",
         countInStock: 0,
@@ -315,7 +322,11 @@ const ProductUpload = () => {
                       {catData?.categoryList?.length !== 0 &&
                         catData?.categoryList?.map((cat, index) => {
                           return (
-                            <MenuItem key={index} value={cat.id}>
+                            <MenuItem
+                              key={index}
+                              value={cat.id}
+                              onClick={() => selectCat(cat.name)}
+                            >
                               {cat.name}
                             </MenuItem>
                           );
