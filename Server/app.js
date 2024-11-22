@@ -4,22 +4,27 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const authJwt = require("./helper/jwt");
 
 app.use(cors());
 app.options("*", cors());
 
 //middleware
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(authJwt());
 
 //Routes
 const categoryRoutes = require("./routes/category");
 const subCatSchema = require("./routes/subCat");
 const productRoutes = require("./routes/products");
+const userRoutes = require("./routes/user");
 
 app.use("/uploads", express.static("uploads"));
 app.use(`/api/category`, categoryRoutes);
 app.use(`/api/subCat`, subCatSchema);
 app.use(`/api/products`, productRoutes);
+app.use(`/api/user`, userRoutes);
 
 //database
 mongoose
