@@ -42,7 +42,7 @@ const Dashboard = () => {
     fetchDataFromApi("/api/products").then((res) => {
       setProductList(res);
     });
-  });
+  }, [context]);
 
   const deleteProduct = (id) => {
     deleteData(`/api/products/${id}`).then((res) => {
