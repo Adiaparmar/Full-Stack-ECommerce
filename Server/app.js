@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const authJwt = require("./helper/jwt");
+// const authJwt = require("./helper/jwt");
 
 app.use(cors());
 app.options("*", cors());
@@ -12,7 +12,7 @@ app.options("*", cors());
 //middleware
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(authJwt());
+// app.use(authJwt());
 
 //Routes
 const categoryRoutes = require("./routes/category");

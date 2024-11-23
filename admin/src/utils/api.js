@@ -13,10 +13,18 @@ export const fetchDataFromApi = async (url) => {
 export const postData = async (url, formData) => {
   try {
     const response = await axios.post("http://localhost:4000" + url, formData);
-    return response.data; // Ensure this returns the uploaded image filenames
+    return {
+      status: response.status, // Include the HTTP status code
+      ...response.data, // Include the response data
+    };
   } catch (error) {
-    console.log(error);
-    return null; // Return null on error to avoid undefined issues
+    console.error("Error in postData:", error);
+    return {
+      status: error.response ? error.response.status : 500,
+      message: error.response
+        ? error.response.data.message
+        : "An error occurred",
+    };
   }
 };
 

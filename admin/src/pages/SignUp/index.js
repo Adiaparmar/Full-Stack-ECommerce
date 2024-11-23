@@ -6,25 +6,91 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { FaPhoneAlt, FaUserCircle } from "react-icons/fa";
 import { IoShieldCheckmarkSharp } from "react-icons/io5";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CheckBox from "@mui/material/Checkbox";
 import { IoMdHome } from "react-icons/io";
 import { MyContext } from "../../App";
+import { postData } from "../../utils/api";
 
 const SignUp = () => {
   const [inputIndex, setInputIndex] = useState(null);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    isAdmin: true,
+  });
   const context = useContext(MyContext);
+  const history = useNavigate();
 
   useEffect(() => {
     context.setisHideSidebarAndHeader(true);
   }, [context]);
   const focusInput = (index) => {
     setInputIndex(index);
+  };
+
+  const onChangeInput = (e) => {
+    setFormFields(() => ({
+      ...formFields,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const signUp = (e) => {
+    e.preventDefault();
+    try {
+      if (formFields.name === "") {
+        alert("Please enter your name");
+        return;
+      }
+
+      if (formFields.email === "") {
+        alert("Please enter your email");
+        return;
+      }
+
+      if (formFields.phone === "") {
+        alert("Please enter your phone");
+        return;
+      }
+
+      if (formFields.password === "") {
+        alert("Please enter your password");
+        return;
+      }
+
+      if (formFields.confirmPassword === "") {
+        alert("Please enter your confirm password");
+        return;
+      }
+
+      if (formFields.password !== formFields.confirmPassword) {
+        alert("Password and confirm password does not match");
+        return;
+      }
+
+      postData("/api/user/signUp", formFields).then((res) => {
+        if (res.status !== false) {
+          alert("User created successfully");
+          setTimeout(() => {
+            history("/login");
+          }, 1000);
+        } else {
+          alert(res.message);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -60,7 +126,7 @@ const SignUp = () => {
               </h5>
             </div>
             <div className="wrapper card border p-4">
-              <form>
+              <form onSubmit={signUp}>
                 <div
                   className={`form-group mb-3 position-relative ${
                     inputIndex === 0 && "focus"
@@ -76,6 +142,8 @@ const SignUp = () => {
                     onFocus={() => focusInput(0)}
                     onBlur={() => setInputIndex(null)}
                     autoFocus
+                    name="name"
+                    onChange={onChangeInput}
                   />
                 </div>
 
@@ -93,12 +161,33 @@ const SignUp = () => {
                     placeholder="Enter your email"
                     onFocus={() => focusInput(1)}
                     onBlur={() => setInputIndex(null)}
+                    name="email"
+                    onChange={onChangeInput}
                   />
                 </div>
 
                 <div
                   className={`form-group mb-3 position-relative ${
                     inputIndex === 2 && "focus"
+                  }`}
+                >
+                  <span className="icon">
+                    <FaPhoneAlt />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter your phone"
+                    onFocus={() => focusInput(1)}
+                    onBlur={() => setInputIndex(null)}
+                    name="phone"
+                    onChange={onChangeInput}
+                  />
+                </div>
+
+                <div
+                  className={`form-group mb-3 position-relative ${
+                    inputIndex === 3 && "focus"
                   }`}
                 >
                   <span className="icon">
@@ -110,6 +199,8 @@ const SignUp = () => {
                     placeholder="Enter your password"
                     onFocus={() => focusInput(2)}
                     onBlur={() => setInputIndex(null)}
+                    name="password"
+                    onChange={onChangeInput}
                   />
                   <span
                     className="toggleShowPassword"
@@ -123,7 +214,7 @@ const SignUp = () => {
 
                 <div
                   className={`form-group mb-3 position-relative ${
-                    inputIndex === 3 && "focus"
+                    inputIndex === 4 && "focus"
                   }`}
                 >
                   <span className="icon">
@@ -137,6 +228,8 @@ const SignUp = () => {
                     placeholder="Confirm your password"
                     onFocus={() => focusInput(3)}
                     onBlur={() => setInputIndex(null)}
+                    name="confirmPassword"
+                    onChange={onChangeInput}
                   />
                   <span
                     className="toggleShowPassword"
@@ -158,7 +251,9 @@ const SignUp = () => {
                 />
 
                 <div className="form-group mb-3">
-                  <Button className="btn-blue btn-big w-100">Sign Up</Button>
+                  <Button className="btn-blue btn-big w-100" type="submit">
+                    Sign Up
+                  </Button>
                 </div>
 
                 <div className="form-group text-center mb-2">

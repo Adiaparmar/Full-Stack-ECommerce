@@ -74,9 +74,7 @@ const Dashboard = () => {
   }, [context]);
 
   const deleteProduct = (id) => {
-    context.setProgress(40);
     deleteData(`/api/products/${id}`).then((res) => {
-      context.setProgress(100);
       alert("Product deleted successfully");
     });
     fetchDataFromApi("/api/products").then((res) => {
@@ -85,9 +83,7 @@ const Dashboard = () => {
   };
 
   const handleChange = (event, value) => {
-    context.setProgress(40);
     fetchDataFromApi(`/api/products?page=${value}`).then((res) => {
-      context.setProgress(100);
       setProductList(res);
     });
   };

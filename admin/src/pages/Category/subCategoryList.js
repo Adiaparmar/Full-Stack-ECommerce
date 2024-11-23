@@ -39,11 +39,8 @@ const SubCategory = () => {
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
 
-    context.setProgress(20);
     fetchDataFromApi("/api/subCat").then((res) => {
       setSubCatData(res);
-
-      context.setProgress(100);
     });
   }, [context]);
 

@@ -6,17 +6,71 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postData } from "../../utils/api";
 
 const Login = () => {
   const [inputIndex, setInputIndex] = useState(null);
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const context = useContext(MyContext);
+
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+    isAdmin: true,
+  });
+
   useEffect(() => {
     context.setisHideSidebarAndHeader(true);
   });
   const focusInput = (index) => {
     setInputIndex(index);
+  };
+
+  const history = useNavigate();
+
+  const onChangeInput = (e) => {
+    setFormFields(() => ({
+      ...formFields,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const signIn = (e) => {
+    e.preventDefault();
+    if (formFields.email === "") {
+      alert("Please enter your email");
+      return;
+    }
+    if (formFields.password === "") {
+      alert("Please enter your password");
+      return;
+    }
+
+    postData("/api/user/signin", formFields).then((res) => {
+      try {
+        if (res.status !== 400) {
+          localStorage.setItem("token", res.token);
+          const user = {
+            name: res.user?.name,
+            email: res.user?.email,
+            userId: res.user?.id,
+          };
+          localStorage.setItem("user", JSON.stringify(user));
+
+          alert("Login successfully");
+
+          setTimeout(() => {
+            // history("/dashboard");
+            window.location.href = "/dashboard";
+          }, 1000);
+        } else {
+          alert(res.message);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
   };
 
   return (
@@ -27,7 +81,7 @@ const Login = () => {
           <h5 className="font-weight-bold log-log">Login to GreenPlore</h5>
         </div>
         <div className="wrapper mt-3 card border p-4">
-          <form>
+          <form onSubmit={signIn}>
             <div
               className={`form-group mb-3 position-relative ${
                 inputIndex === 0 && "focus"
@@ -43,6 +97,8 @@ const Login = () => {
                 onFocus={() => focusInput(0)}
                 onBlur={() => setInputIndex(null)}
                 autoFocus
+                name="email"
+                onChange={onChangeInput}
               />
             </div>
 
@@ -60,6 +116,8 @@ const Login = () => {
                 placeholder="Enter your password"
                 onFocus={() => focusInput(1)}
                 onBlur={() => setInputIndex(null)}
+                name="password"
+                onChange={onChangeInput}
               />
               <span
                 className="toggleShowPassword"
@@ -72,7 +130,9 @@ const Login = () => {
             </div>
 
             <div className="form-group mb-3">
-              <Button className="btn-blue btn-big w-100">Sign In</Button>
+              <Button className="btn-blue btn-big w-100 " type="submit">
+                Sign In
+              </Button>
             </div>
 
             <div className="form-group text-center mb-2">

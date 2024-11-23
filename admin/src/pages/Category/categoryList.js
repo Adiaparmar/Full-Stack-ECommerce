@@ -39,11 +39,8 @@ const Category = () => {
   useEffect(() => {
     context.setisHideSidebarAndHeader(false);
 
-    context.setProgress(20);
     fetchDataFromApi("/api/category").then((res) => {
       setCatData(res);
-
-      context.setProgress(100);
     });
   }, [context]);
 

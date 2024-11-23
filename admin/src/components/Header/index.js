@@ -25,6 +25,7 @@ import Logout from "@mui/icons-material/Logout";
 import { useContext, useState } from "react";
 import { MyContext } from "../../App";
 import UserAvatarImgComponent from "../userAvatarImg";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -45,6 +46,15 @@ const Header = () => {
   };
   const handleCloseNotificationsDrop = () => {
     setisOpennotificationDrop(false);
+  };
+
+  const history = useNavigate();
+  const logout = () => {
+    localStorage.clear();
+    setAnchorEl(null);
+    setTimeout(() => {
+      history("/login");
+    }, 1000);
   };
   return (
     <>
@@ -284,16 +294,13 @@ const Header = () => {
                     >
                       <div className="userImg">
                         <span className="rounded-circle">
-                          <img
-                            src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                            alt="userImg"
-                          />
+                          {context.user?.name?.charAt(0)}
                         </span>
                       </div>
 
                       <div className="userInfo">
-                        <h4>Adiaparmar</h4>
-                        <p className="mb-0">@adiaparmar</p>
+                        <h4>{context.user?.name}</h4>
+                        <p className="mb-0">@{context.user?.email}</p>
                       </div>
                     </div>
 
@@ -346,7 +353,7 @@ const Header = () => {
                         </ListItemIcon>
                         Reset Password
                       </MenuItem>
-                      <MenuItem onClick={handleCloseMyAccDrop}>
+                      <MenuItem onClick={logout}>
                         <ListItemIcon>
                           <Logout fontSize="small" />
                         </ListItemIcon>

@@ -24,13 +24,17 @@ const MyContext = createContext();
 
 function App() {
   const [isToggleSidebar, setIsToggleSidebar] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [catData, setCatData] = useState([]);
   const [subCatData, setSubCatData] = useState([]);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    userId: "",
+  });
   const [isHideSidebarAndHeader, setisHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
   const [baseUrl, setBaseUrl] = useState("http://localhost:4000/");
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (themeMode === true) {
@@ -45,22 +49,31 @@ function App() {
   }, [themeMode]);
 
   useEffect(() => {
-    setProgress(20);
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== "") {
+      setIsLogin(true);
+      const userData = JSON.parse(localStorage.getItem("user"));
+
+      setUser(userData);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
+  useEffect(() => {
     fetchCategory();
     fetchSubCategory();
-  }, [catData]);
+  }, []);
 
   const fetchCategory = async () => {
     fetchDataFromApi("/api/category").then((res) => {
       setCatData(res);
-      setProgress(100);
     });
   };
 
   const fetchSubCategory = async () => {
     fetchDataFromApi("/api/subCat").then((res) => {
       setSubCatData(res);
-      setProgress(100);
     });
   };
 
@@ -73,14 +86,14 @@ function App() {
     setisHideSidebarAndHeader,
     themeMode,
     setThemeMode,
-    progress,
-    setProgress,
     baseUrl,
     setBaseUrl,
     catData,
     fetchCategory,
     subCatData,
     fetchSubCategory,
+    user,
+    setUser,
   };
 
   return (
