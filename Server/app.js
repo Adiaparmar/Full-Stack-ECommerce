@@ -20,6 +20,8 @@ const subCatSchema = require("./routes/subCat");
 const productRoutes = require("./routes/products");
 const userRoutes = require("./routes/user");
 const cart = require("./routes/cart");
+const productReviews = require("./routes/productReviews");
+const myList = require("./routes/myList");
 
 app.use("/uploads", express.static("uploads"));
 app.use(`/api/category`, categoryRoutes);
@@ -27,6 +29,8 @@ app.use(`/api/subCat`, subCatSchema);
 app.use(`/api/products`, productRoutes);
 app.use(`/api/user`, userRoutes);
 app.use(`/api/cart`, cart);
+app.use(`/api/reviews`, productReviews);
+app.use(`/api/myList`, myList);
 
 //database
 mongoose

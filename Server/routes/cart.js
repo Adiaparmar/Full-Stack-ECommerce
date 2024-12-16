@@ -60,6 +60,14 @@ router.delete("/:id", async (req, res) => {
   });
 });
 
+router.get("/:id", async (req, res) => {
+  const cartItem = await Cart.findById(req.params.id);
+  if (!cartItem) {
+    res.status(404).json({ msg: "The cart item given id is not found" });
+  }
+  return res.status(200).send(cartItem);
+});
+
 router.put("/:id", async (req, res) => {
   const cartList = await Cart.findByIdAndUpdate(
     req.params.id,
