@@ -15,7 +15,7 @@ const productReviewsSchema = mongoose.Schema({
   },
   review: {
     type: String,
-    requierd: True,
+    requierd: true,
   },
   customerRating: {
     type: Number,

@@ -54,3 +54,5 @@ router.post("/add", async (req, res) => {
   review = await review.save();
   res.status(201).json(review);
 });
+
+module.exports = router;
