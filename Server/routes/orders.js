@@ -77,4 +77,27 @@ router.post("/create", async (req, res) => {
   res.status(201).json(order);
 });
 
+router.put("/:id", async (req, res) => {
+  const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      phone: req.body.phone,
+      address: req.body.address,
+      pinCode: req.body.pinCode,
+      amount: req.body.amount,
+      paymentId: req.body.paymentId,
+      email: req.body.email,
+      userId: req.body.userId,
+      products: req.body.products,
+      status: req.body.status,
+    },
+    { new: true }
+  );
+  if (!order) {
+    return res.status(500).json({ message: "Order cannot be updated!" });
+  }
+  res.send(order);
+});
+
 module.exports = router;

@@ -19,6 +19,7 @@ import Category from "./pages/Category/categoryList.js";
 import { fetchDataFromApi } from "./utils/api";
 import SubCatAdd from "./pages/Category/addSubCat";
 import SubCatList from "./pages/Category/subCategoryList";
+import Orders from "./pages/Orders/index.js";
 
 const MyContext = createContext();
 
@@ -164,6 +165,7 @@ function App() {
                 exact={true}
                 element={<EditProduct />}
               />
+              <Route path="/orders" exact={true} element={<Orders />} />
             </Routes>
           </div>
         </div>

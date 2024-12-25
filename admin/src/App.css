@@ -1342,3 +1342,47 @@ body.dark
   text-align: center;
   opacity: 0.4;
 }
+
+.css-rsks93-MuiPaper-root-MuiDialog-paper {
+  width: 700px !important;
+  padding: 10px !important;
+}
+
+.orderTable .img {
+  width: 70px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.orderTable .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-danger {
+  background-color: red !important;
+  border-radius: 20px;
+  color: #fff !important;
+  cursor: pointer;
+}
+.badge-success {
+  background-color: green !important;
+  border-radius: 20px;
+  color: #fff !important;
+  cursor: pointer;
+}
+
+.viewbtn {
+  color: #0858f7;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+body.dark .badge-danger .badge-success {
+  color: #fff !important;
+}
+
+body.dark tbody span {
+  color: rgba(0, 0, 0, 1) !important;
+}

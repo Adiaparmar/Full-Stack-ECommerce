@@ -160,19 +160,28 @@ import { FaAngleRight, FaBell } from "react-icons/fa";
 import { FaProductHunt } from "react-icons/fa";
 import { FaCartArrowDown } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
 // import { MyContext } from "../../App";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [isToggleSubmenu, setIsToggleSubmenu] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(false);
+  const history = useNavigate();
   const isOpenSubmenu = (index) => {
     setActiveTab(index);
     setIsToggleSubmenu(!isToggleSubmenu);
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== "") {
+      setIsLogin(true);
+    } else {
+      history("/login");
+    }
+  }, []);
   return (
     <>
       <div className="sidebar">
@@ -266,6 +275,25 @@ const Sidebar = () => {
                 </li>
               </ul>
             </div>
+          </li>
+
+          <li>
+            <Link to="/orders">
+              <Button
+                className={`w-100 ${
+                  activeTab === 3 && isToggleSubmenu === true ? "active" : ""
+                }`}
+                onClick={() => isOpenSubmenu(3)}
+              >
+                <span className="icon">
+                  <FaCartArrowDown />
+                </span>
+                Orders
+                <span className="arrow">
+                  <FaAngleRight />
+                </span>
+              </Button>
+            </Link>
           </li>
         </ul>
         <br />
