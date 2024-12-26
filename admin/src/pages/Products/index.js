@@ -241,7 +241,7 @@ const Dashboard = () => {
                       <td>{item.discount}</td>
                       <td>
                         <div className="actions d-flex align-items-center">
-                          <Link to="/product/details">
+                          <Link to={`/product/details/${item.id}`}>
                             <Button color="secondary">
                               <FaEye />
                             </Button>

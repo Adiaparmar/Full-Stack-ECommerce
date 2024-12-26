@@ -55,6 +55,7 @@ const ProductUpload = () => {
     price: 0,
     oldPrice: 0,
     category: "",
+    catName: "",
     countInStock: 0,
     rating: 0,
     isFeatured: false,
@@ -93,6 +94,7 @@ const ProductUpload = () => {
       category: event.target.value,
     }));
   };
+
   const handleChangeSubCategory = (event) => {
     setSubCatVal(event.target.value);
     setFormFields((e) => ({
@@ -117,7 +119,10 @@ const ProductUpload = () => {
   };
 
   const selectCat = (cat) => {
-    formFields.catName = cat;
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      catName: cat,
+    }));
   };
   const onChangeFile = async (e, apiEndPoint) => {
     try {
@@ -185,7 +190,7 @@ const ProductUpload = () => {
       alert("Product Old Price is required");
       return false;
     }
-    if (formFields.category === "") {
+    if (formFields.catName === "") {
       alert("Product Category is required");
       return false;
     }
@@ -292,17 +297,15 @@ const ProductUpload = () => {
                         <em>None</em>
                       </MenuItem>
                       {catData?.categoryList?.length !== 0 &&
-                        catData?.categoryList?.map((cat, index) => {
-                          return (
-                            <MenuItem
-                              key={index}
-                              value={cat.id}
-                              onClick={() => selectCat(cat.name)}
-                            >
-                              {cat.name}
-                            </MenuItem>
-                          );
-                        })}
+                        catData?.categoryList?.map((cat, index) => (
+                          <MenuItem
+                            key={index}
+                            value={cat.id}
+                            onClick={() => selectCat(cat.name)} // Ensure cat.name is passed
+                          >
+                            {cat.name}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </div>
                 </div>

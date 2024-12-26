@@ -151,7 +151,7 @@ function App() {
               <Route path="/categories" exact={true} element={<Category />} />
 
               <Route
-                path="/product/details"
+                path="/product/details/:id"
                 exact={true}
                 element={<ProductDetails />}
               />
