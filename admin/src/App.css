@@ -1386,3 +1386,47 @@ body.dark .badge-danger .badge-success {
 body.dark tbody span {
   color: rgba(0, 0, 0, 1) !important;
 }
+
+.user-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.user-table thead {
+  background-color: #f8f9fa;
+}
+
+.user-table th {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid #e9ecef;
+  color: #495057;
+}
+
+.user-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.user-table tbody tr:hover {
+  background-color: #f1f3f5;
+  transition: background-color 0.3s ease;
+}
+
+.user-table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.user-table a:hover {
+  text-decoration: underline;
+}

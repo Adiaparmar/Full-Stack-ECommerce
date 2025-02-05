@@ -181,7 +181,7 @@ const Sidebar = () => {
     } else {
       history("/login");
     }
-  }, []);
+  }, [history]);
   return (
     <>
       <div className="sidebar">
@@ -289,6 +289,25 @@ const Sidebar = () => {
                   <FaCartArrowDown />
                 </span>
                 Orders
+                <span className="arrow">
+                  <FaAngleRight />
+                </span>
+              </Button>
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/users">
+              <Button
+                className={`w-100 ${
+                  activeTab === 4 && isToggleSubmenu === true ? "active" : ""
+                }`}
+                onClick={() => isOpenSubmenu(4)}
+              >
+                <span className="icon">
+                  <FaCartArrowDown />
+                </span>
+                Users
                 <span className="arrow">
                   <FaAngleRight />
                 </span>

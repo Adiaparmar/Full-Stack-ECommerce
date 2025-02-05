@@ -20,6 +20,7 @@ import { fetchDataFromApi } from "./utils/api";
 import SubCatAdd from "./pages/Category/addSubCat";
 import SubCatList from "./pages/Category/subCategoryList";
 import Orders from "./pages/Orders/index.js";
+import UsersPage from "./pages/User/index.js";
 
 const MyContext = createContext();
 
@@ -166,6 +167,7 @@ function App() {
                 element={<EditProduct />}
               />
               <Route path="/orders" exact={true} element={<Orders />} />
+              <Route path="/users" exact={true} element={<UsersPage />} />
             </Routes>
           </div>
         </div>
