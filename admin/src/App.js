@@ -21,6 +21,8 @@ import SubCatAdd from "./pages/Category/addSubCat";
 import SubCatList from "./pages/Category/subCategoryList";
 import Orders from "./pages/Orders/index.js";
 import UsersPage from "./pages/User/index.js";
+import AddBanner from "./pages/Banner/addBanner.jsx";
+import Banners from "./pages/Banner/bannerList.jsx";
 
 const MyContext = createContext();
 
@@ -168,6 +170,12 @@ function App() {
               />
               <Route path="/orders" exact={true} element={<Orders />} />
               <Route path="/users" exact={true} element={<UsersPage />} />
+              <Route
+                path="/banner/upload"
+                exact={true}
+                element={<AddBanner />}
+              />
+              <Route path="/banner" exact={true} element={<Banners />} />
             </Routes>
           </div>
         </div>

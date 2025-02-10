@@ -14,6 +14,7 @@ import CheckBox from "@mui/material/Checkbox";
 import { IoMdHome } from "react-icons/io";
 import { MyContext } from "../../App";
 import { postData } from "../../utils/api";
+import { auth, provider, signInWithPopup } from "../../firebase";
 
 const SignUp = () => {
   const [inputIndex, setInputIndex] = useState(null);
@@ -93,6 +94,74 @@ const SignUp = () => {
     }
   };
 
+  const checkUserExists = async (email) => {
+    try {
+      const res = await fetch(`/api/user/check?email=${email}`);
+
+      // Ensure the response is valid JSON
+      const text = await res.text();
+      console.log("Check User Raw Response:", text);
+
+      const data = JSON.parse(text); // Parse after checking
+      return data;
+    } catch (error) {
+      console.error("Error checking user:", error);
+      return { status: false }; // Assume user doesn't exist if error
+    }
+  };
+  const signInWithGoogle = async () => {
+    try {
+      console.log("Starting Google Sign-In...");
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google Sign-In Success:", result);
+
+      const user = result.user;
+      let phone = "";
+
+      // 🔹 Check if user already exists
+      const existingUser = await checkUserExists(user.email);
+
+      // 🔹 If user does not exist, ask for phone number
+      if (!existingUser.status) {
+        phone = prompt("Please enter your phone number:");
+        if (!phone) {
+          alert("Phone number is required for Google sign-in.");
+          return;
+        }
+      }
+
+      // 🔹 Send data to backend
+      const res = await postData("/api/user/google-signin", {
+        name: user.displayName,
+        email: user.email,
+        phone,
+      });
+
+      console.log("Server Response:", res);
+
+      if (res.status === 200) {
+        localStorage.setItem("token", res.token);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: res.user.name,
+            email: res.user.email,
+            userId: res.user.id,
+          })
+        );
+
+        alert("Login successful");
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1000);
+      } else {
+        alert(res.message);
+      }
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      alert("Failed to sign in with Google. Please try again.");
+    }
+  };
   return (
     <section className="loginSection signUpSection">
       <div className="row">
@@ -264,8 +333,9 @@ const SignUp = () => {
                   </div>
 
                   <Button
-                    variable="outlined"
+                    variant="outlined"
                     className="w-100 btn-lg loginWithGoogle btn-big"
+                    onClick={signInWithGoogle}
                   >
                     <img
                       src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png"
@@ -273,7 +343,7 @@ const SignUp = () => {
                       width="25px"
                       className="mr-4 google"
                     />
-                    Sign in with google
+                    Sign in with Google
                   </Button>
                 </div>
               </form>

@@ -56,6 +56,60 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+router.post("/google-signin", async (req, res) => {
+  const { name, email, phone } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      if (!phone) {
+        return res.status(400).json({
+          status: false,
+          message: "Phone number is required for Google sign-in.",
+        });
+      }
+
+      user = new User({
+        name,
+        email,
+        phone,
+        password: null, // No password for Google users
+        isGoogleUser: true,
+      });
+
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      { email: user.email, id: user._id },
+      process.env.JWT_SECRET
+    );
+    res
+      .status(200)
+      .json({ user, token, message: "User authenticated successfully" });
+  } catch (error) {
+    console.error("Google Sign-In Error:", error);
+    res.status(500).json({ status: false, message: "Something went wrong" });
+  }
+});
+
+router.get("/check", async (req, res) => {
+  try {
+    const { email } = req.query;
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return res.json({ status: true, message: "User exists" });
+    } else {
+      return res.json({ status: false, message: "User does not exist" });
+    }
+  } catch (error) {
+    console.error("Check User Error:", error);
+    res.status(500).json({ status: false, message: "Something went wrong" });
+  }
+});
+
 router.get("/", async (req, res) => {
   const userList = await User.find();
 

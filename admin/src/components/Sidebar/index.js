@@ -314,6 +314,39 @@ const Sidebar = () => {
               </Button>
             </Link>
           </li>
+
+          <li>
+            <Button
+              className={`w-100 ${
+                activeTab === 5 && isToggleSubmenu === true ? "active" : ""
+              }`}
+              onClick={() => isOpenSubmenu(5)}
+            >
+              <span className="icon">
+                <FaProductHunt />
+              </span>
+              Banner
+              <span className="arrow">
+                <FaAngleRight />
+              </span>
+            </Button>
+            <div
+              className={`submenuWrapper ${
+                activeTab === 5 && isToggleSubmenu === true
+                  ? "colapse"
+                  : "colapsed"
+              }`}
+            >
+              <ul className="submenu">
+                <li>
+                  <Link to="/banner">Banner List</Link>
+                </li>
+                <li>
+                  <Link to="/banner/upload">Add Banner</Link>
+                </li>
+              </ul>
+            </div>
+          </li>
         </ul>
         <br />
         <div className="logoutWrapper">

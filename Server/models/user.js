@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: true,
     unique: true,
   },
   email: {
@@ -17,7 +16,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+  },
+  isGoogleUser: {
+    type: Boolean,
+    default: false, // This helps differentiate Google users from regular users
   },
 });
 

@@ -23,6 +23,7 @@ const cart = require("./routes/cart");
 const productReviews = require("./routes/productReviews");
 const myList = require("./routes/myList");
 const orders = require("./routes/orders");
+const bannerRoutes = require("./routes/banner");
 
 app.use("/uploads", express.static("uploads"));
 app.use(`/api/category`, categoryRoutes);
@@ -33,6 +34,7 @@ app.use(`/api/cart`, cart);
 app.use(`/api/reviews`, productReviews);
 app.use(`/api/myList`, myList);
 app.use(`/api/orders`, orders);
+app.use(`/api/banner`, bannerRoutes);
 
 //database
 mongoose
