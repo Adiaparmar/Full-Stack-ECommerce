@@ -91,7 +91,7 @@ const AddBanner = () => {
       setIsLoading(true);
       postData("/api/banner", formFields).then((res) => {
         setIsLoading(false);
-        history("/banners");
+        history("/banner");
       });
     } else {
       setError(true);
